@@ -1,18 +1,36 @@
 package com.example.sam.mebake.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.example.sam.mebake.Model.Recipes;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by sam on 11/29/17.
  */
 
-public class Ingredients {
+public class Ingredients implements Parcelable{
+
+
     @SerializedName("measure")
     private String measure;
     @SerializedName("ingredient")
     private String ingredient;
     @SerializedName("quantity")
-    private String quantity;
+    private double quantity;
+
+    public static final Creator<Ingredients> CREATOR = new Creator<Ingredients>() {
+        @Override
+        public Ingredients createFromParcel(Parcel in) {
+            return new Ingredients(in);
+        }
+
+        @Override
+        public Ingredients[] newArray(int size) {
+            return new Ingredients[size];
+        }
+    };
 
     public String getMeasure ()
     {
@@ -34,19 +52,32 @@ public class Ingredients {
         this.ingredient = ingredient;
     }
 
-    public String getQuantity ()
+    public double getQuantity ()
     {
         return quantity;
     }
 
-    public void setQuantity (String quantity)
+    public void setQuantity (double quantity)
     {
         this.quantity = quantity;
     }
 
     @Override
-    public String toString()
-    {
-        return "ClassPojo [measure = "+measure+", ingredient = "+ingredient+", quantity = "+quantity+"]";
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(measure);
+        parcel.writeString(ingredient);
+        parcel.writeDouble(quantity);
+
+    }
+
+    private Ingredients (Parcel in){
+        measure = in.readString();
+        ingredient = in.readString();
+        quantity = in.readDouble();
     }
 }
