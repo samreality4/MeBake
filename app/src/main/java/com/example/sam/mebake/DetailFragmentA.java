@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.sam.mebake.Model.Recipes;
 import com.example.sam.mebake.Model.Steps;
@@ -30,6 +31,18 @@ public class DetailFragmentA extends Fragment implements StepAdapter.stepClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        View rootView = inflater.inflate(R.layout.detail_page_a, container, false);
 
+        Button readIngredients = rootView.findViewById(R.id.ingredients_button);
+        readIngredients.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                //calling activity click method from Fragment
+                ((RecipeDetail)getActivity()).onIngredientClick();
+            }
+
+        });
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             stepsList= bundle.getParcelableArrayList("steps");
@@ -41,6 +54,8 @@ public class DetailFragmentA extends Fragment implements StepAdapter.stepClickLi
         recyclerView = rootView.findViewById(R.id.Recyclerview_steps);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(stepAdapter);
+
+
 
 
         return rootView;

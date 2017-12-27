@@ -11,7 +11,6 @@ import com.example.sam.mebake.Model.Recipes;
 import com.example.sam.mebake.Model.Steps;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by sam on 12/17/17.
@@ -40,7 +39,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.detail_page_a, parent, false);
+        View view = inflater.inflate(R.layout.steps, parent, false);
         final Myholder myholder = new Myholder(view);
         view.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -62,7 +61,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         Myholder myholder = (StepAdapter.Myholder) holder;
         Steps steps = stepLists.get(position);
         myholder.shortDescription.setText(steps.getShortDescription());
-        //todo take out the recipe data in stepLists
+        myholder.numberSteps.setText(steps.getId());
     }
 
     @Override
@@ -73,10 +72,12 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     class Myholder extends RecyclerView.ViewHolder{
         TextView shortDescription;
+        TextView numberSteps;
 
         public Myholder(View itemView){
             super(itemView);
-            shortDescription = itemView.findViewById(R.id.recipe_name);
+            shortDescription = itemView.findViewById(R.id.step_short);
+            numberSteps = itemView.findViewById(R.id.number_of_step);
         }
     }
 

@@ -9,7 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
+import com.example.sam.mebake.Model.Ingredients;
 import com.example.sam.mebake.Model.Recipes;
 import com.example.sam.mebake.Model.Steps;
 import com.example.sam.mebake.remote.ApiClient;
@@ -26,9 +29,10 @@ import retrofit2.Response;
  * Created by sam on 12/15/17.
  */
 
-public class RecipeDetail extends AppCompatActivity {
-    private ArrayList<Recipes> recipesArrayList;
-   ArrayList<Steps> stepsList;
+public class RecipeDetail extends AppCompatActivity{
+    private ArrayList<Recipes> recipesList;
+    ArrayList<Steps> stepsList;
+    ArrayList<Ingredients> ingredientsList;
     StepAdapter stepAdapter;
     RecyclerView recyclerView;
 
@@ -45,15 +49,12 @@ public class RecipeDetail extends AppCompatActivity {
 
             final Recipes recipes = intent.getParcelableExtra("recipes" );
             stepsList = recipes.getStepses();
-
-            //Bundle bundle = getIntent().getExtras();
-            //recipesArrayList = bundle.getParcelableArrayList("recipes");
-            //stepsList = bundle.getParcelableArrayList("recipes");
+            ingredientsList = recipes.getIngredientses();
 
 
             DetailFragmentA detailFragmentA = new DetailFragmentA();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.detail_fragment_a, detailFragmentA)
+                    .replace(R.id.detail_fragment_a, detailFragmentA)
                     .commit();
 
 
@@ -68,13 +69,35 @@ public class RecipeDetail extends AppCompatActivity {
 
             /*getSupportFragmentManager().beginTransaction()
                     .add(R.id.detail_fragment_b, detailFragmentB)
+                    .commit();*/
+
+
+            final DetailFragmentIngredient detailFragmentIngredient = new DetailFragmentIngredient();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_ingredients, detailFragmentIngredient)
                     .commit();
-                    */
+            Bundle ingredientsBundle = new Bundle();
+            ingredientsBundle.putParcelableArrayList("ingredients", ingredientsList);
+
+            detailFragmentIngredient.setArguments(ingredientsBundle);
 
 
 
 
         }
+
+    }
+
+    public void onIngredientClick(){
+        final DetailFragmentIngredient detailFragmentIngredient = new DetailFragmentIngredient();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.detail_fragment_ingredients, detailFragmentIngredient)
+                .commit();
+        Bundle ingredientsBundle = new Bundle();
+        ingredientsBundle.putParcelableArrayList("ingredients", ingredientsList);
+
+        detailFragmentIngredient.setArguments(ingredientsBundle);
+
 
     }
 

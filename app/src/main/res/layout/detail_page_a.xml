@@ -4,16 +4,19 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="20dp"
-    android:paddingLeft="100dp"
-    android:paddingRight="100dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
     android:paddingTop="20dp">
 
  <Button
      android:layout_gravity="center"
-     android:layout_width="383dp"
+     android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:text="INGREDIENTS"
-     tools:ignore="HardcodedText"></Button>
+     tools:ignore="HardcodedText"
+     android:id="@+id/ingredients_button">
+
+ </Button>
 
  <TextView
      android:layout_gravity="center"
@@ -25,9 +28,9 @@
      android:textSize="30sp"/>
 
  <android.support.v7.widget.RecyclerView
-     android:layout_gravity="center"
      android:id="@+id/Recyclerview_steps"
      android:layout_width="match_parent"
-     android:layout_height="wrap_content"/>
+     android:layout_height="wrap_content"
+     android:layout_gravity="center" />
 
 </LinearLayout>

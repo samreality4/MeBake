@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 public class Recipes implements Parcelable{
     @SerializedName("id")
-    private String id;
+    private String recipeid;
     @SerializedName("servings")
     private String servings;
     @SerializedName("name")
@@ -58,14 +58,14 @@ public class Recipes implements Parcelable{
     }
 
 
-    public String getId ()
+    public String getRecipeid ()
     {
-        return id;
+        return recipeid;
     }
 
-    public void setId (String id)
+    public void setId (String recipeid)
     {
-        this.id = id;
+        this.recipeid = recipeid;
     }
 
     public String getServings ()
@@ -107,7 +107,7 @@ public class Recipes implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeList(recipes);
-        parcel.writeString(id);
+        parcel.writeString(recipeid);
         parcel.writeString(servings);
         parcel.writeString(name);
         parcel.writeString(image);
@@ -117,13 +117,12 @@ public class Recipes implements Parcelable{
     }
     private Recipes (Parcel in){
         in.readList(recipes, getClass().getClassLoader());
-        id= in.readString();
+        recipeid= in.readString();
         servings= in.readString();
         name=in.readString();
         image=in.readString();
-        in.readList(ingredientses, getClass().getClassLoader());
         in.readList(stepses, getClass().getClassLoader());
-
+        in.readList(ingredientses, getClass().getClassLoader());
     }
 
 }
