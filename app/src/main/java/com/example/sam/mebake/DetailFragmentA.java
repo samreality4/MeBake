@@ -26,6 +26,7 @@ public class DetailFragmentA extends Fragment implements StepAdapter.stepClickLi
     StepAdapter stepAdapter;
 
     public DetailFragmentA() {
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,8 +50,7 @@ public class DetailFragmentA extends Fragment implements StepAdapter.stepClickLi
         }
 
 
-
-        stepAdapter = new StepAdapter(getContext(), stepsList);
+        stepAdapter = new StepAdapter(getActivity(), stepsList);
         recyclerView = rootView.findViewById(R.id.Recyclerview_steps);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(stepAdapter);
@@ -63,6 +63,14 @@ public class DetailFragmentA extends Fragment implements StepAdapter.stepClickLi
 
     @Override
     public void onStepClickListener(View v, int position) {
+        DetailFragmentB detailFragmentB = new DetailFragmentB();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.detail_fragment_b, detailFragmentB)
+                .commit();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("stepsdetail", stepsList.get(position));
+        detailFragmentB.setArguments(bundle);
 
     }
 }

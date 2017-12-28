@@ -36,7 +36,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.steps, parent, false);
+        View view = inflater.inflate(R.layout.detail_page_ingredients, parent, false);
         final IngredientAdapter.Myholder myholder = new IngredientAdapter.Myholder(view);
         /*view.setOnClickListener(new View.OnClickListener(){
             @Override

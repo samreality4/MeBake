@@ -3,27 +3,14 @@ package com.example.sam.mebake;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import com.example.sam.mebake.Model.Ingredients;
 import com.example.sam.mebake.Model.Recipes;
 import com.example.sam.mebake.Model.Steps;
-import com.example.sam.mebake.remote.ApiClient;
-import com.example.sam.mebake.remote.ApiService;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by sam on 12/15/17.
@@ -40,7 +27,7 @@ public class RecipeDetail extends AppCompatActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tablet_layout);
+        setContentView(R.layout.layout_detail);
 
 
         if (savedInstanceState == null) {
@@ -64,24 +51,20 @@ public class RecipeDetail extends AppCompatActivity{
             detailFragmentA.setArguments(stepBundle);
 
 
-            //DetailFragmentB detailFragmentB = new DetailFragmentB();
+
+            if(findViewById(R.id.detail_fragment_b) != null) {
 
 
-            /*getSupportFragmentManager().beginTransaction()
-                    .add(R.id.detail_fragment_b, detailFragmentB)
-                    .commit();*/
+                final DetailFragmentIngredient detailFragmentIngredient = new DetailFragmentIngredient();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.detail_fragment_b, detailFragmentIngredient)
+                        .commit();
+                Bundle ingredientsBundle = new Bundle();
+                ingredientsBundle.putParcelableArrayList("ingredients", ingredientsList);
 
+                detailFragmentIngredient.setArguments(ingredientsBundle);
 
-            final DetailFragmentIngredient detailFragmentIngredient = new DetailFragmentIngredient();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_fragment_ingredients, detailFragmentIngredient)
-                    .commit();
-            Bundle ingredientsBundle = new Bundle();
-            ingredientsBundle.putParcelableArrayList("ingredients", ingredientsList);
-
-            detailFragmentIngredient.setArguments(ingredientsBundle);
-
-
+            }
 
 
         }
@@ -89,16 +72,37 @@ public class RecipeDetail extends AppCompatActivity{
     }
 
     public void onIngredientClick(){
-        final DetailFragmentIngredient detailFragmentIngredient = new DetailFragmentIngredient();
+
+        DetailFragmentIngredient detailFragmentIngredient = new DetailFragmentIngredient();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.detail_fragment_ingredients, detailFragmentIngredient)
+                .replace(R.id.detail_fragment_a, detailFragmentIngredient)
                 .commit();
         Bundle ingredientsBundle = new Bundle();
         ingredientsBundle.putParcelableArrayList("ingredients", ingredientsList);
 
         detailFragmentIngredient.setArguments(ingredientsBundle);
 
+        if(findViewById(R.id.detail_fragment_b) != null) {
 
+            detailFragmentIngredient = new DetailFragmentIngredient();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_b, detailFragmentIngredient)
+                    .commit();
+            ingredientsBundle = new Bundle();
+            ingredientsBundle.putParcelableArrayList("ingredients", ingredientsList);
+
+            detailFragmentIngredient.setArguments(ingredientsBundle);
+
+        }
     }
 
-}
+    /*public void onStepListClick() {
+
+        DetailFragmentB detailFragmentB = new DetailFragmentB();
+
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_b, detailFragmentB)
+                    .commit();*/
+    }
+

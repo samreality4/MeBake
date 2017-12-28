@@ -32,7 +32,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public StepAdapter(Context context, ArrayList<Steps> list) {
         this.mContext = context;
-        //this.listener = (stepClickListener) context;
+        this.listener = (StepAdapter.stepClickListener) context;
         this.stepLists = list;
         inflater = LayoutInflater.from(context);
     }

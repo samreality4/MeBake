@@ -56,6 +56,8 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
     private TextView resolutionTextView;
+    private TextView stepTitle;
+    private TextView stepDetail;
     RenderersFactory renderersFactory;
     Context context;
     Uri mp4VideoUri;
@@ -63,8 +65,10 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.detail_page_b, container, false);
         context = getActivity();
-        resolutionTextView = new TextView(context);
-        resolutionTextView = resolutionTextView.findViewById(R.id.resolution_textView);
+        resolutionTextView = rootView.findViewById(R.id.resolution_textView);
+        stepTitle = rootView.findViewById(R.id.step_title);
+        stepDetail = rootView.findViewById(R.id.step_detail);
+
 
 
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
