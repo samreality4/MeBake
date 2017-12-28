@@ -20,7 +20,7 @@ import java.util.List;
  * Created by sam on 12/16/17.
  */
 
-public class DetailFragmentA extends Fragment implements StepAdapter.stepClickListener{
+public class DetailFragmentA extends Fragment{
     RecyclerView recyclerView;
     ArrayList<Steps>stepsList;
     StepAdapter stepAdapter;
@@ -61,18 +61,6 @@ public class DetailFragmentA extends Fragment implements StepAdapter.stepClickLi
         return rootView;
     }
 
-    @Override
-    public void onStepClickListener(View v, int position) {
-        DetailFragmentB detailFragmentB = new DetailFragmentB();
-        getFragmentManager().beginTransaction()
-                .replace(R.id.detail_fragment_b, detailFragmentB)
-                .commit();
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("stepsdetail", stepsList.get(position));
-        detailFragmentB.setArguments(bundle);
-
-    }
 }
 //todo get all the fragments ready
 //todo fragment needs adapters?

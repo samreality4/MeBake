@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.example.sam.mebake.Model.Ingredients;
 import com.example.sam.mebake.Model.Recipes;
@@ -16,7 +17,9 @@ import java.util.ArrayList;
  * Created by sam on 12/15/17.
  */
 
-public class RecipeDetail extends AppCompatActivity{
+
+//Communication between Fragments should be done via host Activity in ex. Listeners
+public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepClickListener{
     private ArrayList<Recipes> recipesList;
     ArrayList<Steps> stepsList;
     ArrayList<Ingredients> ingredientsList;
@@ -94,6 +97,28 @@ public class RecipeDetail extends AppCompatActivity{
             detailFragmentIngredient.setArguments(ingredientsBundle);
 
         }
+    }
+
+    @Override
+    public void onStepClickListener(View v, int position) {
+        DetailFragmentB detailFragmentB = new DetailFragmentB();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.detail_fragment_a,detailFragmentB)
+                .commit();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("stepsdetail", stepsList.get(position));
+        detailFragmentB.setArguments(bundle);
+
+        if(findViewById(R.id.detail_fragment_b) != null) {
+            detailFragmentB = new DetailFragmentB();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_b, detailFragmentB)
+                    .commit();
+
+            bundle = new Bundle();
+        bundle.putParcelable("stepsdetail", stepsList.get(position));
+        detailFragmentB.setArguments(bundle);}
+
     }
 
     /*public void onStepListClick() {
