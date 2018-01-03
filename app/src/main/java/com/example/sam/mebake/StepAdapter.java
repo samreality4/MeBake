@@ -61,7 +61,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         Myholder myholder = (StepAdapter.Myholder) holder;
         Steps steps = stepLists.get(position);
         myholder.shortDescription.setText(steps.getShortDescription());
-        myholder.numberSteps.setText(steps.getId());
+        myholder.numberSteps.setText(String.valueOf(steps.getId()));
     }
 
     @Override

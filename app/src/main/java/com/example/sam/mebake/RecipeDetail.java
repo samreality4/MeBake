@@ -12,6 +12,7 @@ import com.example.sam.mebake.Model.Recipes;
 import com.example.sam.mebake.Model.Steps;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sam on 12/15/17.
@@ -19,12 +20,13 @@ import java.util.ArrayList;
 
 
 //Communication between Fragments should be done via host Activity in ex. Listeners
-public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepClickListener{
+public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepClickListener, DetailFragmentB.StepButtonClickListener{
     private ArrayList<Recipes> recipesList;
     ArrayList<Steps> stepsList;
     ArrayList<Ingredients> ingredientsList;
     StepAdapter stepAdapter;
     RecyclerView recyclerView;
+    static String Back_Stack_Step = "Back_Stack_Step";
 
 
     @Override
@@ -75,23 +77,25 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
     }
 
     public void onIngredientClick(){
+        if((findViewById(R.id.detail_fragment_a) !=null) &&
+                (findViewById(R.id.detail_fragment_b) == null)) {
 
-        DetailFragmentIngredient detailFragmentIngredient = new DetailFragmentIngredient();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.detail_fragment_a, detailFragmentIngredient)
-                .commit();
-        Bundle ingredientsBundle = new Bundle();
-        ingredientsBundle.putParcelableArrayList("ingredients", ingredientsList);
+            DetailFragmentIngredient detailFragmentIngredient = new DetailFragmentIngredient();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_a, detailFragmentIngredient)
+                    .commit();
+            Bundle ingredientsBundle = new Bundle();
+            ingredientsBundle.putParcelableArrayList("ingredients", ingredientsList);
 
-        detailFragmentIngredient.setArguments(ingredientsBundle);
+            detailFragmentIngredient.setArguments(ingredientsBundle);
 
-        if(findViewById(R.id.detail_fragment_b) != null) {
+        }else if(findViewById(R.id.detail_fragment_b) != null) {
 
-            detailFragmentIngredient = new DetailFragmentIngredient();
+            DetailFragmentIngredient detailFragmentIngredient = new DetailFragmentIngredient();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_fragment_b, detailFragmentIngredient)
                     .commit();
-            ingredientsBundle = new Bundle();
+            Bundle ingredientsBundle = new Bundle();
             ingredientsBundle.putParcelableArrayList("ingredients", ingredientsList);
 
             detailFragmentIngredient.setArguments(ingredientsBundle);
@@ -101,33 +105,68 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
 
     @Override
     public void onStepClickListener(View v, int position) {
+        if((findViewById(R.id.detail_fragment_a) !=null) &&
+                (findViewById(R.id.detail_fragment_b) == null)){
         DetailFragmentB detailFragmentB = new DetailFragmentB();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.detail_fragment_a,detailFragmentB)
-                .commit();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("stepsdetail", stepsList.get(position));
-        detailFragmentB.setArguments(bundle);
-
-        if(findViewById(R.id.detail_fragment_b) != null) {
-            detailFragmentB = new DetailFragmentB();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_a, detailFragmentB)
+                    .commit();
+            Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
+            bundle.putParcelable("stepsdetail", stepsList.get(position));
+            detailFragmentB.setArguments(bundle);
+        }else if (findViewById(R.id.detail_fragment_b) != null) {
+           DetailFragmentB detailFragmentB = new DetailFragmentB();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_fragment_b, detailFragmentB)
                     .commit();
 
-            bundle = new Bundle();
-        bundle.putParcelable("stepsdetail", stepsList.get(position));
-        detailFragmentB.setArguments(bundle);}
+            Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
+            //stepsList.get(position) is to get the all the items from that position.
+            bundle.putParcelable("stepsdetail", stepsList.get(position));
+            detailFragmentB.setArguments(bundle);}
 
     }
 
-    /*public void onStepListClick() {
-
-        DetailFragmentB detailFragmentB = new DetailFragmentB();
 
 
+
+    @Override
+    public void onStepButtonClickListener(int position) {
+
+            DetailFragmentB detailFragmentB = new DetailFragmentB();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_fragment_b, detailFragmentB)
-                    .commit();*/
-    }
+                    .replace(R.id.detail_fragment_a, detailFragmentB)
+                    .commit();
+            // has to use same STRING name, so it can receive the new data.
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("stepsdetail", stepsList.get(position));
+            detailFragmentB.setArguments(bundle);
+
+            //never leave ! = , alway use !=
+
+            if(findViewById(R.id.detail_fragment_b)!= null){
+                detailFragmentB = new DetailFragmentB();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.detail_fragment_b, detailFragmentB).addToBackStack(Back_Stack_Step)
+                        .commit();
+            }
+            else{
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.detail_fragment_a, detailFragmentB).addToBackStack(Back_Stack_Step)
+                        .commit();
+
+            }
+
+            bundle = new Bundle();
+            bundle.putParcelable("stepsdetail", stepsList.get(position));
+            detailFragmentB.setArguments(bundle);
+        }
+        }
+
+
+
+
+
 

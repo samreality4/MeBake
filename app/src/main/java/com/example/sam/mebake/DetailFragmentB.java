@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.sam.mebake.Model.Steps;
@@ -48,6 +49,9 @@ import com.google.android.exoplayer2.video.VideoRendererEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.google.android.exoplayer2.ExoPlayerFactory.newSimpleInstance;
 
 /**
@@ -62,25 +66,35 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
     private TextView resolutionTextView;
     private TextView stepTitle;
     private TextView stepDetail;
+    private int currentPosition;
     private String videoLink;
+    private ArrayList<Steps> stepsList = new ArrayList<>();
     Context context;
     RenderersFactory renderersFactory;
-    Uri mp4VideoUri;;
+    Uri mp4VideoUri;
+    ;
+    private StepButtonClickListener stepButtonClickListener;
 
+
+    public interface StepButtonClickListener {
+        //pass in the position on this clicklistener
+        void onStepButtonClickListener(int position);
+    }
 
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.detail_page_b, container, false);
         context = getActivity();
-        //resolutionTextView = rootView.findViewById(R.id.resolution_textView);
         stepTitle = rootView.findViewById(R.id.step_title);
         stepDetail = rootView.findViewById(R.id.step_detail);
+        stepButtonClickListener = (RecipeDetail) getActivity();
         //use rootview to find the all the view ids.
 
 
         Bundle bundle = getArguments();
         if (bundle != null) {
+            currentPosition = bundle.getInt("position");
             Steps step = bundle.getParcelable("stepsdetail");
             stepDetail.setText(step.getDescription());
             stepTitle.setText(step.getShortDescription());
@@ -109,7 +123,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
         DefaultBandwidthMeter bandwidthMeterA = new DefaultBandwidthMeter();
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
-                Util.getUserAgent(context,"MeBake" ), bandwidthMeterA);
+                Util.getUserAgent(context, "MeBake"), bandwidthMeterA);
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         final MediaSource videoSource = new ExtractorMediaSource(mp4VideoUri,
                 dataSourceFactory, extractorsFactory, null, null);
@@ -163,13 +177,42 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
         player.setPlayWhenReady(true);
         player.setVideoDebugListener(this);
 
+        Button mPrevStep = rootView.findViewById(R.id.previous_step);
+        Button mNextStep = rootView.findViewById(R.id.next_step);
+
+        mNextStep.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View view) {
+                                                 if(player!=null){
+                                                     player.stop();
+                                                 }
+                                                 stepButtonClickListener.onStepButtonClickListener(currentPosition +1);
+                                             }
+
+
+                                     });
+
+
+                mPrevStep.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                            if(player!=null){
+                                player.stop();
+                            }
+                            stepButtonClickListener.onStepButtonClickListener(currentPosition-1);
+                        }
+
+
+                });
+
+
+
 
 
 
         return rootView;
+
 }
-
-
 
     @Override
     public void onVideoEnabled(DecoderCounters counters) {
@@ -205,4 +248,8 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
     public void onVideoDisabled(DecoderCounters counters) {
 
     }
+
 }
+
+//todo previous and forward onclick
+//todo adding widget

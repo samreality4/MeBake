@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Steps implements Parcelable{
     @SerializedName("id")
-    private String id;
+    private Integer id;
     @SerializedName("shortDescription")
     private String shortDescription;
     @SerializedName("description")
@@ -34,12 +34,12 @@ public class Steps implements Parcelable{
         }
     };
 
-    public String getId ()
+    public Integer getId ()
     {
         return id;
     }
 
-    public void setId (String id)
+    public void setId (int id)
     {
         this.id = id;
     }
@@ -91,7 +91,7 @@ public class Steps implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeString(id);
+            parcel.writeInt(id);
             parcel.writeString(shortDescription);
             parcel.writeString(description);
             parcel.writeString(videoURL);
@@ -99,7 +99,7 @@ public class Steps implements Parcelable{
     }
 
     private Steps(Parcel in){
-        id = in.readString();
+        id = in.readInt();
         shortDescription = in.readString();
         description = in.readString();
         videoURL = in.readString();
