@@ -186,6 +186,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
                                                  if(player!=null){
                                                      player.stop();
                                                  }
+
                                                  stepButtonClickListener.onStepButtonClickListener(currentPosition +1);
                                              }
 
@@ -196,18 +197,15 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
                 mPrevStep.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                            if(player!=null){
-                                player.stop();
-                            }
-                            stepButtonClickListener.onStepButtonClickListener(currentPosition-1);
+                        if (player != null) {
+                            player.stop();
+
                         }
-
-
+                        if (currentPosition > 0) {
+                            stepButtonClickListener.onStepButtonClickListener(currentPosition - 1);
+                        }
+                    }
                 });
-
-
-
-
 
 
         return rootView;

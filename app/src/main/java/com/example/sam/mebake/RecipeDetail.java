@@ -141,6 +141,7 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
                     .commit();
             // has to use same STRING name, so it can receive the new data.
             Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
             bundle.putParcelable("stepsdetail", stepsList.get(position));
             detailFragmentB.setArguments(bundle);
 
