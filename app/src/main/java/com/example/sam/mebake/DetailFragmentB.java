@@ -78,7 +78,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
 
     public interface StepButtonClickListener {
-        //pass in the position on this clicklistener
+        //pass in the List and position on this clicklistener
         void onStepButtonClickListener(List<Steps> everySteps, int position);
     }
 
