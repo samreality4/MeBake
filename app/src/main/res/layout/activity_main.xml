@@ -13,15 +13,18 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#737fcb">
 
-    <TextView
-        android:padding="20dp"
-        android:text="Recipes"
-        android:id="@+id/recipe_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/recipe_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/colorPrimary"
+            android:padding="20dp"
+            android:text="Recipes"
+            android:textColor="@color/White_HOLO"/>
 
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

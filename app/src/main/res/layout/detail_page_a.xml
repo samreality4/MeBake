@@ -15,7 +15,8 @@
      android:layout_height="wrap_content"
      android:text="INGREDIENTS"
      tools:ignore="HardcodedText"
-     android:id="@+id/ingredients_button">
+     android:id="@+id/ingredients_button"
+     android:backgroundTint="@color/colorPrimaryDark">
 
  </Button>
 

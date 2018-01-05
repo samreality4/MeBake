@@ -78,7 +78,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
     public interface StepButtonClickListener {
         //pass in the position on this clicklistener
-        void onStepButtonClickListener(int position);
+        void onStepButtonClickListener(List<Steps> everySteps, int position);
     }
 
 
@@ -94,8 +94,10 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
         Bundle bundle = getArguments();
         if (bundle != null) {
+
             currentPosition = bundle.getInt("position");
             Steps step = bundle.getParcelable("stepsdetail");
+            stepsList = bundle.getParcelableArrayList("steplist");
             stepDetail.setText(step.getDescription());
             stepTitle.setText(step.getShortDescription());
             videoLink = step.getVideoURL();
@@ -187,7 +189,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
                                                      player.stop();
                                                  }
 
-                                                 stepButtonClickListener.onStepButtonClickListener(currentPosition +1);
+                                                 stepButtonClickListener.onStepButtonClickListener(stepsList, currentPosition +1);
                                              }
 
 
@@ -202,7 +204,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
                         }
                         if (currentPosition > 0) {
-                            stepButtonClickListener.onStepButtonClickListener(currentPosition - 1);
+                            stepButtonClickListener.onStepButtonClickListener(stepsList, currentPosition-1);
                         }
                     }
                 });
