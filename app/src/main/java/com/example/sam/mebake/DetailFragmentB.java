@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sam.mebake.Model.Steps;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -188,9 +189,11 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
                                                  if(player!=null){
                                                      player.stop();
                                                  }
-
-                                                 stepButtonClickListener.onStepButtonClickListener(stepsList, currentPosition +1);
-                                             }
+                                        if(currentPosition + 1 < stepsList.size()) {
+                                            stepButtonClickListener.onStepButtonClickListener(stepsList, currentPosition + 1);
+                                        }else
+                                            Toast.makeText(getActivity(), "End of the Line for you", Toast.LENGTH_SHORT).show();
+                                         }
 
 
                                      });
@@ -203,9 +206,10 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
                             player.stop();
 
                         }
-                        if (currentPosition > 0) {
+                        if (currentPosition -1 > 0) {
                             stepButtonClickListener.onStepButtonClickListener(stepsList, currentPosition-1);
-                        }
+                        }else
+                            Toast.makeText(getActivity(), "Beginning of the Line for you", Toast.LENGTH_SHORT).show();
                     }
                 });
 

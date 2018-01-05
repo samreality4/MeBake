@@ -112,6 +112,7 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
                     .replace(R.id.detail_fragment_a, detailFragmentB)
                     .commit();
             Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("steplist", stepsList);
             bundle.putInt("position", position);
             bundle.putParcelable("stepsdetail", stepsList.get(position));
             detailFragmentB.setArguments(bundle);
@@ -122,6 +123,7 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
                     .commit();
 
             Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("steplist", stepsList);
             bundle.putInt("position", position);
             //stepsList.get(position) is to get the all the items from that position.
             bundle.putParcelable("stepsdetail", stepsList.get(position));
@@ -134,7 +136,7 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
 
     @Override
     public void onStepButtonClickListener(List <Steps> steps, int position) {
-            if(findViewById(R.id.detail_fragment_a)!=null && findViewById(R.id.detail_fragment_b) == null) {
+            if(findViewById(R.id.detail_fragment_a)!=null && findViewById(R.id.detail_fragment_b) == null ) {
 
                 DetailFragmentB detailFragmentB = new DetailFragmentB();
                 getSupportFragmentManager().beginTransaction()
@@ -142,12 +144,13 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
                         .commit();
                 // has to use same STRING name, so it can receive the new data.
                 Bundle bundle = new Bundle();
+                //pass in the entire list so, it can take data from the list.
                 bundle.putParcelableArrayList("steplist", stepsList);
                 bundle.putInt("position", position);
                 bundle.putParcelable("stepsdetail", stepsList.get(position));
                 detailFragmentB.setArguments(bundle);
                 //never leave ! = , alway use !=
-            }else if(findViewById(R.id.detail_fragment_b)!= null && findViewById(R.id.detail_fragment_a) != null){
+            }else if(findViewById(R.id.detail_fragment_b)!= null && findViewById(R.id.detail_fragment_a) != null ){
                 DetailFragmentB detailFragmentB = new DetailFragmentB();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.detail_fragment_b, detailFragmentB).addToBackStack(Back_Stack_Step)
@@ -160,11 +163,6 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
                 detailFragmentB.setArguments(bundle);
             }
 
-            /*bundle = new Bundle();
-        bundle.putParcelableArrayList("steplist",stepsList);
-        bundle.putInt("position", position);
-            bundle.putParcelable("stepsdetail", stepsList.get(position));
-            detailFragmentB.setArguments(bundle);*/
         }
         }
 
