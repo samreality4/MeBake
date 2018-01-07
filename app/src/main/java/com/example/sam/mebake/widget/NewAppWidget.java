@@ -2,6 +2,7 @@ package com.example.sam.mebake.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,17 +15,13 @@ import com.example.sam.mebake.R;
  */
 public class NewAppWidget extends AppWidgetProvider {
 
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
+        ComponentName thisWidget = new ComponentName(context.getApplicationContext(), NewAppWidget.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        onUpdate(context, appWidgetManager, appWidgetIds);
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
-
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
-
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     @Override
@@ -37,6 +34,8 @@ public class NewAppWidget extends AppWidgetProvider {
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
             rv.setRemoteAdapter(R.id.widget_listview, intent);
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds[i], R.id.widget_listview);
+
         }
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);

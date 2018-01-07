@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
     private RecyclerView recyclerView;
     RecipeAdapter recipeAdapter;
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    public static final String SHARED_PREFS_KEY = "SHARED_PREFS_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
