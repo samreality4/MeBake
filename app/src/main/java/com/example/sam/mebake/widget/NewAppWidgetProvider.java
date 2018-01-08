@@ -67,12 +67,15 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context, NewAppRemoteViewsService.class);
         views.setRemoteAdapter(R.id.widget_listview, intent);
 
+        views.setEmptyView(R.id.widget_listview, R.id.empty_view);
+
         Intent updateRecipeIntent = new Intent();
         updateRecipeIntent.setAction(WIDGET_UPDATE_ACTION);
         appWidgetManager.updateAppWidget(appWidgetId, views);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview);
 
     }
+
 
     @Override
     public void onEnabled(Context context) {
