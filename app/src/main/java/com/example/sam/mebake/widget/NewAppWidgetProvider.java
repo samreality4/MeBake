@@ -17,7 +17,7 @@ import com.example.sam.mebake.R;
 /**
  * Implementation of App Widget functionality.
  */
-public class NewAppWidget extends AppWidgetProvider {
+public class NewAppWidgetProvider extends AppWidgetProvider {
 
     private static final String PREF_NAME = "prefname";
     private static final String RECIPES_PREF_KEY ="prefkey";
@@ -29,8 +29,9 @@ public class NewAppWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
-        ComponentName thisWidget = new ComponentName(context.getApplicationContext(), NewAppWidget.class);
+        ComponentName thisWidget = new ComponentName(context.getApplicationContext(), NewAppWidgetProvider.class);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        updateRecipeId(context);
         onUpdate(context, appWidgetManager, appWidgetIds);
 
     }
@@ -42,7 +43,7 @@ public class NewAppWidget extends AppWidgetProvider {
         int recipeSize = sharedPreferences.getInt(RECIPES_SIZE_PREF, 1);
 
         if(recipeId < recipeSize - 1){
-            recipeId++
+            recipeId++;
         }else{
             recipeId = 0;
         }

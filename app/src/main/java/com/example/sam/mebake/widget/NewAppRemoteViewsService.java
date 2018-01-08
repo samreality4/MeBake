@@ -79,8 +79,11 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int position) {
-            RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
-            rv.setTextViewText(R.id.ingredients_info, String.valueOf(ingredientsArrayList.get(position).getQuantity()));
+            // this works like a viewholder in the adapter for recyclerview
+            RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.new_app_widget_ingredients);
+           rv.setTextViewText(R.id.tv_ingredient_measure,String.valueOf(ingredientsArrayList.get(position).getMeasure()));
+            rv.setTextViewText(R.id.tv_ingredient_quantity, String.valueOf(ingredientsArrayList.get(position).getQuantity()));
+            rv.setTextViewText(R.id.tv_ingredient_description, ingredientsArrayList.get(position).getIngredient());
             return rv;
         }
 
