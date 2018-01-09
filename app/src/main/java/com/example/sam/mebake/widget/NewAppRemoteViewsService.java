@@ -35,8 +35,10 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
         private static final String RECIPES_ID_PREF ="recipeid";
 
 
+
         private Context context;
         private ArrayList<Ingredients> ingredientsArrayList;
+        SharedPreferences.Editor editor;
 
         public NewAppRemoteViewsFactory(Context context) {
             this.context = context;
@@ -54,6 +56,7 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
         public void onDataSetChanged() {
             //setting up sharedpreference in.
             SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+            //saving things in sharedpreference
             int recipeId=preferences.getInt(RECIPES_ID_PREF, 0);
             String json = preferences.getString(RECIPES_PREF_KEY, "");
             Type type = new TypeToken<List<Recipes>>(){}.getType();
@@ -63,6 +66,9 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
                     ingredientsArrayList = recipes.get(recipeId).getIngredientses();
                 }
             }
+            editor.putString(String.valueOf(ingredientsArrayList), json);
+            editor = preferences.edit();
+            editor.commit();
         }
 
         @Override

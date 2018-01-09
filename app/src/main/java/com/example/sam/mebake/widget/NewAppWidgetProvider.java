@@ -39,7 +39,9 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
     private void updateRecipeId(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        //getting the recipe id to findout which recipe to pick up
         int recipeId = sharedPreferences.getInt(RECIPES_ID_PREF, 0);
+
         int recipeSize = sharedPreferences.getInt(RECIPES_SIZE_PREF, 1);
 
         if(recipeId < recipeSize - 1){
@@ -54,8 +56,9 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them
+        // There may be multiple widgets active, so update all of them (if one ID, or IDs)
         for(int appWidgetId : appWidgetIds){
+            //load the updateAppWidget below
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
 
