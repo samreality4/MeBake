@@ -255,5 +255,3 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
 }
 
-//todo previous and forward onclick
-//todo adding widget

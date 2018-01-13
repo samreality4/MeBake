@@ -32,6 +32,7 @@ public class DetailFragmentA extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        View rootView = inflater.inflate(R.layout.detail_page_a, container, false);
 
+
         Button readIngredients = rootView.findViewById(R.id.ingredients_button);
         readIngredients.setOnClickListener(new View.OnClickListener(){
 

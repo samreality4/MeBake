@@ -7,11 +7,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.widget.RemoteViews;
-import android.widget.RemoteViewsService;
 
-import com.example.sam.mebake.MainActivity;
 import com.example.sam.mebake.R;
 
 /**
@@ -19,6 +16,7 @@ import com.example.sam.mebake.R;
  */
 public class NewAppWidgetProvider extends AppWidgetProvider {
 
+    //string names to pick up data from json
     private static final String PREF_NAME = "prefname";
     private static final String RECIPES_PREF_KEY ="prefkey";
     private static final String RECIPES_ID_PREF ="recipeid";
@@ -27,6 +25,7 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
 
     public void onReceive(Context context, Intent intent) {
+        //receive the update from intent
         super.onReceive(context, intent);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
         ComponentName thisWidget = new ComponentName(context.getApplicationContext(), NewAppWidgetProvider.class);
@@ -74,6 +73,15 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
         Intent updateRecipeIntent = new Intent();
         updateRecipeIntent.setAction(WIDGET_UPDATE_ACTION);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                                                        context,
+                                                        0,
+                                                        updateRecipeIntent,
+                                                        PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.widget_recipe_title, pendingIntent);
+
+
+        //tells widget manager to update
         appWidgetManager.updateAppWidget(appWidgetId, views);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview);
 
@@ -91,3 +99,4 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
     }
 }
 
+//todo send the receive the intent and then somebody should send the intent

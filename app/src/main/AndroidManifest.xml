@@ -21,8 +21,11 @@
         </activity>
         <activity android:name=".RecipeDetail" />
 
-        <receiver android:name=".widget.NewAppWidgetProvider">
-            <intent-filter>
+
+        <receiver
+            android:label="Example Widget"
+            android:name=".widget.NewAppWidgetProvider" >
+            <intent-filter >
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
@@ -30,8 +33,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/new_app_widget_info" />
         </receiver>
-        <service android:name=".widget.NewAppRemoteViewsService"
-        android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     </application>
 
 </manifest>

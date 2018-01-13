@@ -28,23 +28,19 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
         return new NewAppRemoteViewsFactory(this.getApplicationContext());
     }
 
-    class NewAppRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
+    class NewAppRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         private static final String PREF_NAME = "prefname";
-        private static final String RECIPES_PREF_KEY ="prefkey";
-        private static final String RECIPES_ID_PREF ="recipeid";
-
+        private static final String RECIPES_PREF_KEY = "prefkey";
+        private static final String RECIPES_ID_PREF = "recipeid";
 
 
         private Context context;
-        private ArrayList<Ingredients> ingredientsArrayList;
+        private List<Ingredients> ingredientsList;
         SharedPreferences.Editor editor;
 
         public NewAppRemoteViewsFactory(Context context) {
             this.context = context;
-            //setting up the ingredient list to put things in
-            ingredientsArrayList = new ArrayList<>();
-
         }
 
         @Override
@@ -57,19 +53,20 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
             //setting up sharedpreference in.
             SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, MODE_PRIVATE);
             //saving things in sharedpreference
-            int recipeId=preferences.getInt(RECIPES_ID_PREF, 0);
-            String json = preferences.getString(RECIPES_PREF_KEY, "");
-            Type type = new TypeToken<List<Recipes>>(){}.getType();
-            if(!json.equals("")){
-                Gson gson = new Gson();
-                List<Recipes> recipes  = gson.fromJson(json, type);{
-                    ingredientsArrayList = recipes.get(recipeId).getIngredientses();
-                }
+            int recipeId = preferences.getInt(RECIPES_ID_PREF, 0);
+            String json = preferences.getString(RECIPES_PREF_KEY, null);
+            Type type = new TypeToken<List<Recipes>>() {
+            }.getType();
+            Gson gson = new Gson();
+            List<Recipes> recipes = gson.fromJson(json, type);
+            {
+                ingredientsList = recipes.get(recipeId).getIngredientses();
             }
-            editor.putString(String.valueOf(ingredientsArrayList), json);
-            editor = preferences.edit();
-            editor.commit();
         }
+            /*editor.putString(String.valueOf(ingredientsArrayList), json);
+            editor = preferences.edit();
+            editor.commit();*/
+
 
         @Override
         public void onDestroy() {
@@ -78,18 +75,19 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
 
         @Override
         public int getCount() {
-            if(ingredientsArrayList != null){
-                return ingredientsArrayList.size();
-            }else return 0;
+            if (ingredientsList != null) {
+                //how big is this list?
+                return ingredientsList.size();
+            } else return 0;
         }
 
         @Override
         public RemoteViews getViewAt(int position) {
             // this works like a viewholder in the adapter for recyclerview
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.new_app_widget_ingredients);
-           rv.setTextViewText(R.id.tv_ingredient_measure,String.valueOf(ingredientsArrayList.get(position).getMeasure()));
-            rv.setTextViewText(R.id.tv_ingredient_quantity, String.valueOf(ingredientsArrayList.get(position).getQuantity()));
-            rv.setTextViewText(R.id.tv_ingredient_description, ingredientsArrayList.get(position).getIngredient());
+            rv.setTextViewText(R.id.tv_ingredient_measure, String.valueOf(ingredientsList.get(position).getMeasure()));
+            rv.setTextViewText(R.id.tv_ingredient_quantity, String.valueOf(ingredientsList.get(position).getQuantity()));
+            rv.setTextViewText(R.id.tv_ingredient_description, ingredientsList.get(position).getIngredient());
             return rv;
         }
 
@@ -116,5 +114,5 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
 
     }
 
-
 }
+
