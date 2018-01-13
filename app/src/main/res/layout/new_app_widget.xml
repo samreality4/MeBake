@@ -11,7 +11,6 @@
 </ListView>
 
 
-
     <TextView
         android:layout_gravity="center"
         android:text="INGREDIENTS"
