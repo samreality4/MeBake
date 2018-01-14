@@ -53,14 +53,14 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
             //setting up sharedpreference in.
             SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, MODE_PRIVATE);
             //saving things in sharedpreference
-            int recipeId = preferences.getInt(RECIPES_ID_PREF, 0);
+            //int recipeId = preferences.getInt(RECIPES_ID_PREF, 0);
             String json = preferences.getString(RECIPES_PREF_KEY, null);
-            Type type = new TypeToken<List<Recipes>>() {
+            Type type = new TypeToken<List<Ingredients>>() {
             }.getType();
             Gson gson = new Gson();
-            List<Recipes> recipes = gson.fromJson(json, type);
+            List<Ingredients> ingredients = gson.fromJson(json, type);
             {
-                ingredientsList = recipes.get(recipeId).getIngredientses();
+                ingredientsList = ingredients;
             }
         }
             /*editor.putString(String.valueOf(ingredientsArrayList), json);

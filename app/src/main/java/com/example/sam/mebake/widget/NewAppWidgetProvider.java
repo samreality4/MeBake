@@ -30,12 +30,12 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
         ComponentName thisWidget = new ComponentName(context.getApplicationContext(), NewAppWidgetProvider.class);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-        updateRecipeId(context);
+        //updateRecipeId(context);
         onUpdate(context, appWidgetManager, appWidgetIds);
 
     }
 
-    private void updateRecipeId(Context context){
+    /*private void updateRecipeId(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         //getting the recipe id to findout which recipe to pick up
@@ -48,10 +48,10 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         }else{
             recipeId = 0;
         }
-        editor.putInt(RECIPES_PREF_KEY, recipeId);
+        editor.putString(RECIPES_PREF_KEY, recipeId);
         editor.apply();
 
-    }
+    }*/
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -73,10 +73,10 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
         Intent updateRecipeIntent = new Intent();
         updateRecipeIntent.setAction(WIDGET_UPDATE_ACTION);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+      /*  PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context,0, updateRecipeIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(R.id.widget_recipe_title, pendingIntent);
+       views.setOnClickPendingIntent(R.id.widget_recipe_title, pendingIntent);*/
 
 
         //tells widget manager to update

@@ -2,6 +2,7 @@ package com.example.sam.mebake;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import com.example.sam.mebake.Model.Recipes;
 import com.example.sam.mebake.Model.Steps;
 import com.example.sam.mebake.remote.ApiClient;
 import com.example.sam.mebake.remote.ApiService;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,14 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
     private RecyclerView recyclerView;
     RecipeAdapter recipeAdapter;
     private static final String TAG = MainActivity.class.getSimpleName();
-    public static final String SHARED_PREFS_KEY = "SHARED_PREFS_KEY";
+    private static final String PREF_NAME = "prefname";
+    private static final String RECIPES_PREF_KEY ="prefkey";
+    private static final String RECIPES_ID_PREF ="recipeid";
+    private static final String RECIPES_SIZE_PREF="recipesize";
+    private static final String WIDGET_UPDATE_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +74,33 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
 
     }
 
+    private void saveToSharedPreference(List<Ingredients> ingredients){
+        //setting up sharedpreferences with name & mode
+        SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        //setting up the editor to edit sharepreference
+        SharedPreferences.Editor editor = preferences.edit();
+        Gson gson = new Gson();
+        //converting ingredient list to json
+        String newJsonData = gson.toJson(ingredients);
+        editor.putString(RECIPES_PREF_KEY, newJsonData);
+        editor.putInt(RECIPES_ID_PREF, 0);
+        editor.putInt(RECIPES_SIZE_PREF, ingredients.size());
+        editor.apply();
+
+    }
+
     @Override
     public void onRecipeClickListener(View v, int position) {
         //Bundle bundle = new Bundle();
         //add the position to the arraylist (wow)
         Recipes recipes = recipeList.get(position);
-        //bundle.putParcelableArrayList("recipes", recipeList);
-        //bundle.putParcelableArrayList("steps", stepList);
+        //put the ingreident into the ingredient list
+        List<Ingredients> ingredients = recipes.getIngredientses();
         final Intent intent = new Intent(this, RecipeDetail.class);
         intent.putExtra("recipes", recipes);
         startActivity(intent);
+        //save the CURRENT(onclick) to sharedpreference
+        saveToSharedPreference(ingredients);
     }
 }
 
