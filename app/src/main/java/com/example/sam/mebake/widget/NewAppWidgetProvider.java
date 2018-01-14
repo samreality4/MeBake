@@ -74,10 +74,8 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         Intent updateRecipeIntent = new Intent();
         updateRecipeIntent.setAction(WIDGET_UPDATE_ACTION);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                                                        context,
-                                                        0,
-                                                        updateRecipeIntent,
-                                                        PendingIntent.FLAG_UPDATE_CURRENT);
+                context,0, updateRecipeIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.widget_recipe_title, pendingIntent);
 
 
@@ -99,4 +97,4 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
     }
 }
 
-//todo send the receive the intent and then somebody should send the intent
+//todo send the receive the intent and then somebody should send the intent(example like in our recyclerview)

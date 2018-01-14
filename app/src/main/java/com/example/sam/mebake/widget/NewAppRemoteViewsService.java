@@ -37,7 +37,7 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
 
         private Context context;
         private List<Ingredients> ingredientsList;
-        SharedPreferences.Editor editor;
+
 
         public NewAppRemoteViewsFactory(Context context) {
             this.context = context;
