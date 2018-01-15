@@ -12,6 +12,9 @@ import com.example.sam.mebake.Model.Steps;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by sam on 12/17/17.
  */
@@ -71,13 +74,17 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
 
     class Myholder extends RecyclerView.ViewHolder{
-        TextView shortDescription;
-        TextView numberSteps;
+        @BindView(R.id.step_short) TextView shortDescription;
+        @BindView(R.id.number_of_step) TextView numberSteps;
+
+        /*TextView shortDescription;
+        TextView numberSteps;*/
 
         public Myholder(View itemView){
             super(itemView);
-            shortDescription = itemView.findViewById(R.id.step_short);
-            numberSteps = itemView.findViewById(R.id.number_of_step);
+            ButterKnife.bind(this, itemView);
+            /*shortDescription = itemView.findViewById(R.id.step_short);
+            numberSteps = itemView.findViewById(R.id.number_of_step);*/
         }
     }
 

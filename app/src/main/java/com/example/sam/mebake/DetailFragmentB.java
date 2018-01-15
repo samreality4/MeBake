@@ -53,6 +53,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 import static com.google.android.exoplayer2.ExoPlayerFactory.newSimpleInstance;
 
 /**

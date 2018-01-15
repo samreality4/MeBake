@@ -66,14 +66,14 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId){
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
-        Intent intent = new Intent(context, NewAppRemoteViewsService.class);
+        Intent intent = new Intent(context, NewAppRemoteViewsService.NewAppRemoteViewsFactory.class);
         views.setRemoteAdapter(R.id.widget_listview, intent);
 
-        views.setEmptyView(R.id.widget_listview, R.id.empty_view);
+        //views.setEmptyView(R.id.widget_listview, R.id.empty_view);
 
-        Intent updateRecipeIntent = new Intent();
+        /*Intent updateRecipeIntent = new Intent();
         updateRecipeIntent.setAction(WIDGET_UPDATE_ACTION);
-      /*  PendingIntent pendingIntent = PendingIntent.getBroadcast(
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context,0, updateRecipeIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
        views.setOnClickPendingIntent(R.id.widget_recipe_title, pendingIntent);*/

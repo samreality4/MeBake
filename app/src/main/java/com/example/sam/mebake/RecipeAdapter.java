@@ -15,6 +15,9 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by sam on 11/29/17.
  */
@@ -70,11 +73,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
 class Myholder extends RecyclerView.ViewHolder{
-    TextView recipeMain;
+    @BindView(R.id.recipe_name) TextView recipeMain;
 
     public Myholder(View itemView){
         super(itemView);
-        recipeMain = itemView.findViewById(R.id.recipe_name);
+        ButterKnife.bind(this, itemView);
     }
 }
 
