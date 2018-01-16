@@ -79,6 +79,7 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
        Intent updateIntent = new Intent();
         updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
         updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
+        //Notice I only put in the recipeName here, but all the data would change.
         updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
         context.sendBroadcast(updateIntent);
 
@@ -87,7 +88,7 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
 
         //tells widget manager to update
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+       appWidgetManager.updateAppWidget(appWidgetId, views);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.title_text);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview);
 

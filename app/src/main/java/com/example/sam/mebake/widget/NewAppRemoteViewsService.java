@@ -101,7 +101,7 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
         @Override
         //ViewTypeCount needs to be at least one so it shows stuff
         public int getViewTypeCount() {
-            return 4;
+            return 2;
         }
 
         @Override
