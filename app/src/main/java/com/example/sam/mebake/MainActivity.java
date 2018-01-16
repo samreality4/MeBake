@@ -74,16 +74,19 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
 
     }
 
-    private void saveToSharedPreference(List<Ingredients> ingredients){
+    private void saveToSharedPreference(List<Ingredients> ingredients, String name){
         //setting up sharedpreferences with name & mode
         SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         //setting up the editor to edit sharepreference
         SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
         Gson gson = new Gson();
         //converting ingredient list to json
         String newJsonData = gson.toJson(ingredients);
+        String jsonRecipeName= gson.toJson(name);
         editor.putString(RECIPES_PREF_KEY, newJsonData);
-        editor.putInt(RECIPES_ID_PREF, 0);
+        editor.putString(RECIPES_ID_PREF, jsonRecipeName);
         editor.putInt(RECIPES_SIZE_PREF, ingredients.size());
         editor.apply();
 
@@ -95,12 +98,13 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
         //add the position to the arraylist (wow)
         Recipes recipes = recipeList.get(position);
         //put the ingreident into the ingredient list
+        String name = recipes.getName();
         List<Ingredients> ingredients = recipes.getIngredientses();
         final Intent intent = new Intent(this, RecipeDetail.class);
         intent.putExtra("recipes", recipes);
         startActivity(intent);
         //save the CURRENT(onclick) to sharedpreference
-        saveToSharedPreference(ingredients);
+        saveToSharedPreference(ingredients, name);
     }
 }
 

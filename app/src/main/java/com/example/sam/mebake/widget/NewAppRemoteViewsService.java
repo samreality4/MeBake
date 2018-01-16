@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -37,6 +38,7 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
 
         private Context context;
         private List<Ingredients> ingredientsList;
+        private String recipeName;
 
 
         public NewAppRemoteViewsFactory(Context context) {
@@ -53,20 +55,19 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
             //setting up sharedpreference in.
             SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, MODE_PRIVATE);
             //saving things in sharedpreference
-            //int recipeId = preferences.getInt(RECIPES_ID_PREF, 0);
             String json = preferences.getString(RECIPES_PREF_KEY, null);
+            //String json1 = preferences.getString(RECIPES_ID_PREF, null);
             Type type = new TypeToken<List<Ingredients>>() {
             }.getType();
             Gson gson = new Gson();
+            /*String name = json1;{
+                recipeName = name;
+            }*/
             List<Ingredients> ingredients = gson.fromJson(json, type);
             {
                 ingredientsList = ingredients;
             }
         }
-            /*editor.putString(String.valueOf(ingredientsArrayList), json);
-            editor = preferences.edit();
-            editor.commit();*/
-
 
         @Override
         public void onDestroy() {
@@ -84,10 +85,16 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
         @Override
         public RemoteViews getViewAt(int position) {
             // this works like a viewholder in the adapter for recyclerview
-            RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.new_app_widget_ingredients);
-            rv.setTextViewText(R.id.tv_ingredient_measure, String.valueOf(ingredientsList.get(position).getMeasure()));
-            rv.setTextViewText(R.id.tv_ingredient_quantity, String.valueOf(ingredientsList.get(position).getQuantity()));
-            rv.setTextViewText(R.id.tv_ingredient_description, ingredientsList.get(position).getIngredient());
+            RemoteViews rv = new RemoteViews(context.getPackageName(),
+                    R.layout.new_app_widget_ingredients);
+
+            //rv.setTextViewText(R.id.title_text, recipeName);
+            rv.setTextViewText(R.id.tv_ingredient_measure,
+                    String.valueOf(ingredientsList.get(position).getMeasure()));
+            rv.setTextViewText(R.id.tv_ingredient_quantity,
+                    String.valueOf(ingredientsList.get(position).getQuantity()));
+            rv.setTextViewText(R.id.tv_ingredient_description,
+                    ingredientsList.get(position).getIngredient());
             return rv;
         }
 
@@ -97,8 +104,9 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
         }
 
         @Override
+        //ViewTypeCount needs to be at least one so it shows stuff
         public int getViewTypeCount() {
-            return 0;
+            return 3;
         }
 
         @Override

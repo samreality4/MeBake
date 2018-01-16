@@ -9,7 +9,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
+import com.example.sam.mebake.Model.Ingredients;
 import com.example.sam.mebake.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Implementation of App Widget functionality.
@@ -22,6 +30,7 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
     private static final String RECIPES_ID_PREF ="recipeid";
     private static final String RECIPES_SIZE_PREF="recipesize";
     private static final String WIDGET_UPDATE_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
+    private String recipeName;
 
 
     public void onReceive(Context context, Intent intent) {
@@ -66,10 +75,18 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId){
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
-        Intent intent = new Intent(context, NewAppRemoteViewsService.NewAppRemoteViewsFactory.class);
+
+        Intent intent = new Intent(context, NewAppRemoteViewsService.class);
+        SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        //saving things in sharedpreference
+        String json1 = preferences.getString(RECIPES_ID_PREF, null);
+        String name = json1;{
+            recipeName = name;
+        }
+        views.setTextViewText(R.id.title_text, recipeName);
         views.setRemoteAdapter(R.id.widget_listview, intent);
 
-        //views.setEmptyView(R.id.widget_listview, R.id.empty_view);
+        views.setEmptyView(R.id.widget_listview, R.id.empty_view);
 
         /*Intent updateRecipeIntent = new Intent();
         updateRecipeIntent.setAction(WIDGET_UPDATE_ACTION);
