@@ -27,9 +27,12 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
     //string names to pick up data from json
     private static final String PREF_NAME = "prefname";
     private static final String RECIPES_PREF_KEY ="prefkey";
-    private static final String RECIPES_ID_PREF ="recipeid";
+    private static final String RECIPES_NAME_PREF ="recipename";
     private static final String RECIPES_SIZE_PREF="recipesize";
     private static final String WIDGET_UPDATE_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
+    public static final String WIDGET_IDS_KEY ="mywidgetproviderwidgetids";
+    public static final String WIDGET_DATA_KEY ="mywidgetproviderwidgetdata";
+
     private String recipeName;
 
 
@@ -39,28 +42,9 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
         ComponentName thisWidget = new ComponentName(context.getApplicationContext(), NewAppWidgetProvider.class);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-        //updateRecipeId(context);
         onUpdate(context, appWidgetManager, appWidgetIds);
 
     }
-
-    /*private void updateRecipeId(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //getting the recipe id to findout which recipe to pick up
-        int recipeId = sharedPreferences.getInt(RECIPES_ID_PREF, 0);
-
-        int recipeSize = sharedPreferences.getInt(RECIPES_SIZE_PREF, 1);
-
-        if(recipeId < recipeSize - 1){
-            recipeId++;
-        }else{
-            recipeId = 0;
-        }
-        editor.putString(RECIPES_PREF_KEY, recipeId);
-        editor.apply();
-
-    }*/
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -79,19 +63,32 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context, NewAppRemoteViewsService.class);
         SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         //saving things in sharedpreference
-        String json1 = preferences.getString(RECIPES_ID_PREF, null);
-        String name = json1;{
-            recipeName = name;
-        }
+        String json1 = preferences.getString(RECIPES_NAME_PREF, null);
+            Type type1 = new TypeToken<String>() {
+            }.getType();
+            Gson gson = new Gson();
+            recipeName = gson.fromJson(json1,type1);
+
         //has to put the name string in here because remoteviewfactory is like an
         // adapter it takes multiple things instead of one
         views.setTextViewText(R.id.title_text, recipeName);
         views.setRemoteAdapter(R.id.widget_listview, intent);
 
         views.setEmptyView(R.id.widget_listview, R.id.empty_view);
+        //This will send a broadcast to the widget and change the data
+       Intent updateIntent = new Intent();
+        updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
+        updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
+        updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
+        context.sendBroadcast(updateIntent);
+
+
+
+
 
         //tells widget manager to update
         appWidgetManager.updateAppWidget(appWidgetId, views);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.title_text);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview);
 
     }

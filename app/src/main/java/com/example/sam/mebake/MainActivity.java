@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String PREF_NAME = "prefname";
     private static final String RECIPES_PREF_KEY ="prefkey";
-    private static final String RECIPES_ID_PREF ="recipeid";
+    private static final String RECIPES_NAME_PREF ="recipename";
     private static final String RECIPES_SIZE_PREF="recipesize";
     private static final String WIDGET_UPDATE_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
         String newJsonData = gson.toJson(ingredients);
         String jsonRecipeName= gson.toJson(name);
         editor.putString(RECIPES_PREF_KEY, newJsonData);
-        editor.putString(RECIPES_ID_PREF, jsonRecipeName);
+        editor.putString(RECIPES_NAME_PREF, jsonRecipeName);
         editor.putInt(RECIPES_SIZE_PREF, ingredients.size());
         editor.apply();
 
