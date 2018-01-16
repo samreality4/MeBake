@@ -33,12 +33,11 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
 
         private static final String PREF_NAME = "prefname";
         private static final String RECIPES_PREF_KEY = "prefkey";
-        private static final String RECIPES_ID_PREF = "recipeid";
 
 
         private Context context;
         private List<Ingredients> ingredientsList;
-        private String recipeName;
+
 
 
         public NewAppRemoteViewsFactory(Context context) {
@@ -56,13 +55,10 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
             SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, MODE_PRIVATE);
             //saving things in sharedpreference
             String json = preferences.getString(RECIPES_PREF_KEY, null);
-            //String json1 = preferences.getString(RECIPES_ID_PREF, null);
             Type type = new TypeToken<List<Ingredients>>() {
             }.getType();
             Gson gson = new Gson();
-            /*String name = json1;{
-                recipeName = name;
-            }*/
+
             List<Ingredients> ingredients = gson.fromJson(json, type);
             {
                 ingredientsList = ingredients;
@@ -88,7 +84,6 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
             RemoteViews rv = new RemoteViews(context.getPackageName(),
                     R.layout.new_app_widget_ingredients);
 
-            //rv.setTextViewText(R.id.title_text, recipeName);
             rv.setTextViewText(R.id.tv_ingredient_measure,
                     String.valueOf(ingredientsList.get(position).getMeasure()));
             rv.setTextViewText(R.id.tv_ingredient_quantity,

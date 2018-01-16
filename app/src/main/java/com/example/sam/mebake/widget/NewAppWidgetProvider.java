@@ -83,18 +83,12 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         String name = json1;{
             recipeName = name;
         }
+        //has to put the name string in here because remoteviewfactory is like an
+        // adapter it takes multiple things instead of one
         views.setTextViewText(R.id.title_text, recipeName);
         views.setRemoteAdapter(R.id.widget_listview, intent);
 
         views.setEmptyView(R.id.widget_listview, R.id.empty_view);
-
-        /*Intent updateRecipeIntent = new Intent();
-        updateRecipeIntent.setAction(WIDGET_UPDATE_ACTION);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context,0, updateRecipeIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-       views.setOnClickPendingIntent(R.id.widget_recipe_title, pendingIntent);*/
-
 
         //tells widget manager to update
         appWidgetManager.updateAppWidget(appWidgetId, views);
