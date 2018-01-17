@@ -46,23 +46,13 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
     }
 
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them (if one ID, or IDs)
-        for(int appWidgetId : appWidgetIds){
-            //load the updateAppWidget below
-            updateAppWidget(context, appWidgetManager, appWidgetId);
-        }
-
-
-    }
 
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId){
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
 
         Intent intent = new Intent(context, NewAppRemoteViewsService.class);
         SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        //saving things in sharedpreference
+        //extracting the string from Json because remotefactory wouldn't allow.
         String json1 = preferences.getString(RECIPES_NAME_PREF, null);
             Type type1 = new TypeToken<String>() {
             }.getType();
@@ -71,17 +61,20 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
         //has to put the name string in here because remoteviewfactory is like an
         // adapter it takes multiple things instead of one
-        views.setTextViewText(R.id.title_text, recipeName);
-        views.setRemoteAdapter(R.id.widget_listview, intent);
 
-        views.setEmptyView(R.id.widget_listview, R.id.empty_view);
         //This will send a broadcast to the widget and change the data
+        AppWidgetManager.getInstance(context);
        Intent updateIntent = new Intent();
         updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
         updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
         //Notice I only put in the recipeName here, but all the data would change.
-        updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
+        //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
         context.sendBroadcast(updateIntent);
+
+        views.setTextViewText(R.id.title_text, recipeName);
+        views.setRemoteAdapter(R.id.widget_listview, intent);
+
+        views.setEmptyView(R.id.widget_listview, R.id.empty_view);
 
 
 
@@ -93,6 +86,18 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview);
 
     }
+
+    @Override
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        // There may be multiple widgets active, so update all of them (if one ID, or IDs)
+        for(int appWidgetId : appWidgetIds){
+            //load the updateAppWidget below
+            updateAppWidget(context, appWidgetManager, appWidgetId);
+        }
+
+
+    }
+
 
 
     @Override

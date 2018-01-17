@@ -47,6 +47,9 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
         @Override
         public void onCreate() {
 
+
+
+
         }
 
         @Override
@@ -101,12 +104,12 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
         @Override
         //ViewTypeCount needs to be at least one so it shows stuff
         public int getViewTypeCount() {
-            return 2;
+            return 180;
         }
 
         @Override
         public long getItemId(int position) {
-            return position;
+            return 0;
         }
 
         @Override

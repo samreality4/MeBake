@@ -7,6 +7,5 @@
     android:minWidth="200dp"
     android:previewImage="@drawable/ic_launcher_background"
     android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="10000"
-    android:widgetCategory="home_screen"
-    tools:ignore="UnusedAttribute" />
+    android:updatePeriodMillis="1000000"
+    android:widgetCategory="home_screen" />
