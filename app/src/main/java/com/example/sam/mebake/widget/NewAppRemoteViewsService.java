@@ -104,17 +104,17 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
         @Override
         //ViewTypeCount needs to be at least one so it shows stuff
         public int getViewTypeCount() {
-            return 180;
+            return 1;
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
         public boolean hasStableIds() {
-            return false;
+            return true;
         }
 
 

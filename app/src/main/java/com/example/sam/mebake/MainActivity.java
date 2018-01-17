@@ -16,6 +16,7 @@ import com.example.sam.mebake.Model.Recipes;
 import com.example.sam.mebake.Model.Steps;
 import com.example.sam.mebake.remote.ApiClient;
 import com.example.sam.mebake.remote.ApiService;
+import com.example.sam.mebake.widget.NewAppWidgetProvider;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
         startActivity(intent);
         //save the CURRENT(onclick) to sharedpreference
         saveToSharedPreference(ingredients, name);
+        NewAppWidgetProvider.toBroadCast();
     }
 }
 

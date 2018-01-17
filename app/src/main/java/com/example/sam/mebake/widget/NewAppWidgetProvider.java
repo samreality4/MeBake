@@ -36,15 +36,7 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
     private String recipeName;
 
 
-    public void onReceive(Context context, Intent intent) {
-        //receive the update from intent
-        super.onReceive(context, intent);
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
-        ComponentName thisWidget = new ComponentName(context.getApplicationContext(), NewAppWidgetProvider.class);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-        onUpdate(context, appWidgetManager, appWidgetIds);
 
-    }
 
 
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId){
@@ -53,31 +45,34 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context, NewAppRemoteViewsService.class);
         SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         //extracting the string from Json because remotefactory wouldn't allow.
+
         String json1 = preferences.getString(RECIPES_NAME_PREF, null);
             Type type1 = new TypeToken<String>() {
             }.getType();
             Gson gson = new Gson();
-            recipeName = gson.fromJson(json1,type1);
+            recipeName = gson.fromJson(json1, type1);
 
         //has to put the name string in here because remoteviewfactory is like an
         // adapter it takes multiple things instead of one
 
         //This will send a broadcast to the widget and change the data
-        AppWidgetManager.getInstance(context);
-       Intent updateIntent = new Intent();
+        /*AppWidgetManager.getInstance(context);
+        Intent updateIntent = new Intent();
         updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
         updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
         //Notice I only put in the recipeName here, but all the data would change.
         //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
-        context.sendBroadcast(updateIntent);
+        context.sendBroadcast(updateIntent);*/
 
+
+        if (recipeName != null) {
         views.setTextViewText(R.id.title_text, recipeName);
+        }else{
+            views.setTextViewText(R.id.title_text,"The Void");
+        }
         views.setRemoteAdapter(R.id.widget_listview, intent);
 
         views.setEmptyView(R.id.widget_listview, R.id.empty_view);
-
-
-
 
 
         //tells widget manager to update
@@ -98,6 +93,16 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
     }
 
+    public void onReceive(Context context, Intent intent) {
+        //receive the update from intent
+        super.onReceive(context, intent);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
+        ComponentName thisWidget = new ComponentName(context.getApplicationContext(), NewAppWidgetProvider.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        onUpdate(context, appWidgetManager, appWidgetIds);
+
+    }
+
 
 
     @Override
@@ -108,6 +113,19 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+    public static void toBroadCast(){
+        //This will send a broadcast to the widget and change the data
+        this.Context = context;
+        AppWidgetManager appWidgetManager = null;
+        int appWidgetId = 0;
+        AppWidgetManager.getInstance(context);
+        Intent updateIntent = new Intent();
+        updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
+        updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
+        //Notice I only put in the recipeName here, but all the data would change.
+        //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
+        context.sendBroadcast(updateIntent);
     }
 }
 
