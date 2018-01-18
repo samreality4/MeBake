@@ -83,6 +83,7 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
             DetailFragmentIngredient detailFragmentIngredient = new DetailFragmentIngredient();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_fragment_a, detailFragmentIngredient)
+                    .addToBackStack(Back_Stack_Step)
                     .commit();
             Bundle ingredientsBundle = new Bundle();
             ingredientsBundle.putParcelableArrayList("ingredients", ingredientsList);
@@ -110,6 +111,7 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
         DetailFragmentB detailFragmentB = new DetailFragmentB();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_fragment_a, detailFragmentB)
+                    .addToBackStack(Back_Stack_Step)
                     .commit();
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList("steplist", stepsList);
