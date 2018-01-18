@@ -8,14 +8,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import com.example.sam.mebake.Model.Ingredients;
 import com.example.sam.mebake.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Type;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -33,7 +39,11 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
     public static final String WIDGET_IDS_KEY ="mywidgetproviderwidgetids";
     public static final String WIDGET_DATA_KEY ="mywidgetproviderwidgetdata";
 
+
+
+
     private String recipeName;
+    private String currentRecipeName;
 
 
     public void onReceive(Context context, Intent intent) {
@@ -46,6 +56,14 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
     }
 
+    @Override
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        // There may be multiple widgets active, so update all of them (if one ID, or IDs)
+        for(int appWidgetId : appWidgetIds){
+            //load the updateAppWidget below
+            updateAppWidget(context, appWidgetManager, appWidgetId);
+        }
+    }
 
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId){
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
@@ -59,44 +77,30 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
             Gson gson = new Gson();
             recipeName = gson.fromJson(json1,type1);
 
-        //has to put the name string in here because remoteviewfactory is like an
-        // adapter it takes multiple things instead of one
-
-        //This will send a broadcast to the widget and change the data
-        AppWidgetManager.getInstance(context);
-       Intent updateIntent = new Intent();
-        updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
-        updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
-        //Notice I only put in the recipeName here, but all the data would change.
-        //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
-        context.sendBroadcast(updateIntent);
-
-        views.setTextViewText(R.id.title_text, recipeName);
-        views.setRemoteAdapter(R.id.widget_listview, intent);
-
-        views.setEmptyView(R.id.widget_listview, R.id.empty_view);
+                /*AppWidgetManager.getInstance(context);
+                Intent updateIntent = new Intent();
+                updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
+                //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
+                //Notice I only put in the recipeName here, but all the data would change.
+                //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
+                context.sendBroadcast(updateIntent);*/
 
 
+                views.setTextViewText(R.id.title_text, recipeName);
+                views.setRemoteAdapter(R.id.widget_listview, intent);
+
+                views.setEmptyView(R.id.widget_listview, R.id.empty_view);
+
+                //tells widget manager to update
+                appWidgetManager.updateAppWidget(appWidgetId, views);
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.title_text);
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview);
 
 
-
-        //tells widget manager to update
-       appWidgetManager.updateAppWidget(appWidgetId, views);
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.title_text);
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview);
 
     }
 
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them (if one ID, or IDs)
-        for(int appWidgetId : appWidgetIds){
-            //load the updateAppWidget below
-            updateAppWidget(context, appWidgetManager, appWidgetId);
-        }
 
-
-    }
 
 
 
@@ -110,23 +114,19 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-public static void toBroadCast(){
-       //This will send a broadcast to the widget and change the data
-         this.Context = context;
-         AppWidgetManager appWidgetManager = null;
-         int appWidgetId = 0;
-         AppWidgetManager.getInstance(context);
+    public static void toBroadCast(Context context, AppWidgetManager appWidgetManager){
+        //This will send a broadcast to the widget and change the data
+        AppWidgetManager.getInstance(context);
         Intent updateIntent = new Intent();
-         updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
-         updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
-         //Notice I only put in the recipeName here, but all the data would change.
-         //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
+        updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
+        //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
+        //Notice I only put in the recipeName here, but all the data would change.
+        //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
         context.sendBroadcast(updateIntent);
-     }
-
-
-
     }
+
+
+}
 
 
 

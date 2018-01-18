@@ -1,6 +1,8 @@
 package com.example.sam.mebake;
 
 
+import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -34,12 +36,10 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
     RecipeAdapter recipeAdapter;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String PREF_NAME = "prefname";
-    private static final String RECIPES_PREF_KEY ="prefkey";
-    private static final String RECIPES_NAME_PREF ="recipename";
-    private static final String RECIPES_SIZE_PREF="recipesize";
+    private static final String RECIPES_PREF_KEY = "prefkey";
+    private static final String RECIPES_NAME_PREF = "recipename";
+    private static final String RECIPES_SIZE_PREF = "recipesize";
     private static final String WIDGET_UPDATE_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
-
-
 
 
     @Override
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
 
     }
 
-    private void saveToSharedPreference(List<Ingredients> ingredients, String name){
+    private void saveToSharedPreference(List<Ingredients> ingredients, String name) {
         //setting up sharedpreferences with name & mode
         SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         //setting up the editor to edit sharepreference
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
         Gson gson = new Gson();
         //converting ingredient list to json
         String newJsonData = gson.toJson(ingredients);
-        String jsonRecipeName= gson.toJson(name);
+        String jsonRecipeName = gson.toJson(name);
         editor.putString(RECIPES_PREF_KEY, newJsonData);
         editor.putString(RECIPES_NAME_PREF, jsonRecipeName);
         editor.putInt(RECIPES_SIZE_PREF, ingredients.size());
@@ -106,7 +106,10 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
         startActivity(intent);
         //save the CURRENT(onclick) to sharedpreference
         saveToSharedPreference(ingredients, name);
-        NewAppWidgetProvider.toBroadCast();
+        //NewAppWidgetProvider.toBroadCast();
     }
-}
 
+
+
+
+}

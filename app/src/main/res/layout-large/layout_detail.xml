@@ -10,7 +10,7 @@
         android:background="@color/cardview_light_background"
         android:id="@+id/detail_fragment_a"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="8"/>
 
     <FrameLayout
