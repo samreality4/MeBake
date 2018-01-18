@@ -30,8 +30,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.recipeClickListener {
     public ArrayList<Recipes> recipeList;
-    public ArrayList<Ingredients> ingredientsList;
-    public ArrayList<Steps> stepList;
     private RecyclerView recyclerView;
     RecipeAdapter recipeAdapter;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -39,8 +37,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
     private static final String RECIPES_PREF_KEY = "prefkey";
     private static final String RECIPES_NAME_PREF = "recipename";
     private static final String RECIPES_SIZE_PREF = "recipesize";
-    private static final String WIDGET_UPDATE_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
-
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +103,8 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
         startActivity(intent);
         //save the CURRENT(onclick) to sharedpreference
         saveToSharedPreference(ingredients, name);
-        //NewAppWidgetProvider.toBroadCast();
+        //Call toBroadCast method from widgetProvider
+        NewAppWidgetProvider.toBroadCast(context);
     }
 
 

@@ -46,10 +46,6 @@ public class NewAppRemoteViewsService extends RemoteViewsService {
 
         @Override
         public void onCreate() {
-
-
-
-
         }
 
         @Override

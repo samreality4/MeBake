@@ -32,18 +32,9 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
     //string names to pick up data from json
     private static final String PREF_NAME = "prefname";
-    private static final String RECIPES_PREF_KEY ="prefkey";
     private static final String RECIPES_NAME_PREF ="recipename";
-    private static final String RECIPES_SIZE_PREF="recipesize";
-    private static final String WIDGET_UPDATE_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
-    public static final String WIDGET_IDS_KEY ="mywidgetproviderwidgetids";
-    public static final String WIDGET_DATA_KEY ="mywidgetproviderwidgetdata";
-
-
-
-
     private String recipeName;
-    private String currentRecipeName;
+
 
 
     public void onReceive(Context context, Intent intent) {
@@ -77,14 +68,6 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
             Gson gson = new Gson();
             recipeName = gson.fromJson(json1,type1);
 
-                /*AppWidgetManager.getInstance(context);
-                Intent updateIntent = new Intent();
-                updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
-                //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
-                //Notice I only put in the recipeName here, but all the data would change.
-                //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
-                context.sendBroadcast(updateIntent);*/
-
 
                 views.setTextViewText(R.id.title_text, recipeName);
                 views.setRemoteAdapter(R.id.widget_listview, intent);
@@ -104,6 +87,7 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
 
 
+
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
@@ -114,13 +98,12 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    public static void toBroadCast(Context context, AppWidgetManager appWidgetManager){
+    public static void toBroadCast(Context context){
         //This will send a broadcast to the widget and change the data
         AppWidgetManager.getInstance(context);
         Intent updateIntent = new Intent();
-        updateIntent.setAction(appWidgetManager.ACTION_APPWIDGET_UPDATE);
+        updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_IDS_KEY, appWidgetId);
-        //Notice I only put in the recipeName here, but all the data would change.
         //updateIntent.putExtra(NewAppWidgetProvider.WIDGET_DATA_KEY, recipeName);
         context.sendBroadcast(updateIntent);
     }

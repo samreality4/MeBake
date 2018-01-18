@@ -77,9 +77,6 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         @BindView(R.id.step_short) TextView shortDescription;
         @BindView(R.id.number_of_step) TextView numberSteps;
 
-        /*TextView shortDescription;
-        TextView numberSteps;*/
-
         public Myholder(View itemView){
             super(itemView);
             ButterKnife.bind(this, itemView);
