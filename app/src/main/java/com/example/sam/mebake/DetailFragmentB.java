@@ -1,16 +1,20 @@
 package com.example.sam.mebake;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,20 +68,32 @@ import static com.google.android.exoplayer2.ExoPlayerFactory.newSimpleInstance;
 public class DetailFragmentB extends Fragment implements VideoRendererEventListener {
 
     private static final String TAG = "DetailFragmentB";
-    private SimpleExoPlayerView simpleExoPlayerView;
-    private SimpleExoPlayer player;
-    private TextView resolutionTextView;
     private TextView stepTitle;
     private TextView stepDetail;
     private int currentPosition;
-    private String videoLink;
     private ArrayList<Steps> stepsList = new ArrayList<>();
     Context context;
-    RenderersFactory renderersFactory;
-    Uri mp4VideoUri;
-    ;
     private StepButtonClickListener stepButtonClickListener;
 
+
+
+    private String videoLink;
+    private SimpleExoPlayerView simpleExoPlayerView;
+    private SimpleExoPlayer player;
+    RenderersFactory renderersFactory;
+    Uri mp4VideoUri;
+    private MediaSource videoSource;
+    private boolean mExoPlayerFullscreen = false;
+    //private FrameLayout mFullScreenButton;
+    //private ImageView mFullScreenIcon;
+    private Dialog mFullScreenDialog;
+
+    private int mResumeWindow;
+    private long mResumePosition;
+
+    private final String STATE_RESUME_WINDOW = "resumeWindow";
+    private final String STATE_RESUME_POSITION = "resumePosition";
+    private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
 
     public interface StepButtonClickListener {
         //pass in the List and position on this clicklistener
@@ -93,6 +109,12 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
         stepDetail = rootView.findViewById(R.id.step_detail);
         stepButtonClickListener = (RecipeDetail) getActivity();
         //use rootview to find the all the view ids.
+
+        if(savedInstanceState !=null){
+            mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
+            mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
+            mExoPlayerFullscreen = savedInstanceState.getBoolean(STATE_PLAYER_FULLSCREEN);
+        }
 
 
         Bundle bundle = getArguments();
@@ -130,7 +152,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
                 Util.getUserAgent(context, "MeBake"), bandwidthMeterA);
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-        final MediaSource videoSource = new ExtractorMediaSource(mp4VideoUri,
+        videoSource = new ExtractorMediaSource(mp4VideoUri,
                 dataSourceFactory, extractorsFactory, null, null);
         player.prepare(videoSource);
         player.addListener(new Player.EventListener() {
@@ -219,6 +241,56 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
         return rootView;
 
 }
+
+@Override
+public void onSaveInstanceState(Bundle outState){
+        outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
+        outState.putLong(STATE_RESUME_POSITION, mResumePosition);
+        outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
+}
+
+private void initFullscreenDialog(){
+    mFullScreenDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen){
+        public void onBackPressed(){
+            if(!mExoPlayerFullscreen)
+                openFullscreenDialog();
+            else
+                closeFullscreenDialog();
+            super.onBackPressed();
+        }
+    };
+}
+
+private void openFullscreenDialog(){
+    ((ViewGroup) simpleExoPlayerView.getParent()).removeView(simpleExoPlayerView);
+    mFullScreenDialog.addContentView(simpleExoPlayerView, new ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    //mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_fullscreen_gosmall));
+    mExoPlayerFullscreen=true;
+    mFullScreenDialog.show();
+}
+
+private void closeFullscreenDialog(){
+    ((ViewGroup) simpleExoPlayerView.getParent()).removeView(simpleExoPlayerView);
+    ((FrameLayout) simpleExoPlayerView.findViewById(R.id.mediaplayer_frame)).addView(simpleExoPlayerView);
+    //mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_fullscreen_gobig));
+    mExoPlayerFullscreen = false;
+    mFullScreenDialog.dismiss();
+
+}
+
+@Override
+public void onResume(){
+    super.onResume();
+    initFullscreenDialog();
+}
+
+@Override
+public void onStop(){
+    super.onStop();
+
+}
+
 
     @Override
     public void onVideoEnabled(DecoderCounters counters) {

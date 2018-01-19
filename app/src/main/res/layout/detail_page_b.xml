@@ -12,11 +12,19 @@
         android:id="@+id/step_title"
         android:textStyle="bold" />
 
+    <FrameLayout
+        android:id="@+id/mediaplayer_frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+    </FrameLayout>
+
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/video"
-        android:layout_weight="5"/>
+        />
 
     <TextView
         android:layout_width="match_parent"

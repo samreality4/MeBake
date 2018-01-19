@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sam.mebake.Model.Recipes;
 import com.example.sam.mebake.Model.Steps;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -65,8 +67,18 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         Steps steps = stepLists.get(position);
         myholder.shortDescription.setText(steps.getShortDescription());
         myholder.numberSteps.setText(String.valueOf(steps.getId()));
-    }
 
+        if (steps.getThumbnailURL().isEmpty()) {
+
+        }else{
+            Picasso.with(mContext)
+                    .load(steps.getThumbnailURL())
+                    .resize(185, 278)
+                    .error(R.drawable.ic_action_name)
+                    .into(myholder.stepThumbNail);
+
+        }
+    }
     @Override
     public int getItemCount() {
         return stepLists.size();
@@ -76,6 +88,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     class Myholder extends RecyclerView.ViewHolder{
         @BindView(R.id.step_short) TextView shortDescription;
         @BindView(R.id.number_of_step) TextView numberSteps;
+        @BindView(R.id.step_thumbnail) ImageView stepThumbNail;
 
         public Myholder(View itemView){
             super(itemView);

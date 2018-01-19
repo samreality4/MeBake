@@ -143,6 +143,7 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
                 DetailFragmentB detailFragmentB = new DetailFragmentB();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.detail_fragment_a, detailFragmentB)
+                        .addToBackStack(Back_Stack_Step)
                         .commit();
                 // has to use same STRING name, so it can receive the new data.
                 Bundle bundle = new Bundle();
