@@ -1,11 +1,17 @@
 package com.example.sam.mebake;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.sam.mebake.Model.Ingredients;
 import com.example.sam.mebake.Model.Recipes;
@@ -27,12 +33,14 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
     StepAdapter stepAdapter;
     RecyclerView recyclerView;
     static String Back_Stack_Step = "Back_Stack_Step";
+    Context context = this;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_detail);
+
 
 
         if (savedInstanceState == null) {
@@ -74,6 +82,41 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
 
         }
 
+    }
+
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                Toast toast = Toast.makeText(context, "Just going back", Toast.LENGTH_SHORT);
+                toast.show();
+                return true;
+            case R.id.gohome:
+                NavUtils.navigateUpFromSameTask(this);
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(getFragmentManager().getBackStackEntryCount() > 0){
+            getFragmentManager().popBackStack();
+        }
+        else{
+            super.onBackPressed();
+        }
     }
 
     public void onIngredientClick(){

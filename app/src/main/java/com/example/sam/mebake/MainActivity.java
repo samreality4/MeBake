@@ -5,12 +5,19 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.example.sam.mebake.Model.Ingredients;
@@ -45,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
         setContentView(R.layout.main_recyclerview);
 
 
+
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Call<ArrayList<Recipes>> call = apiService.getEverything();
         call.enqueue(new Callback<ArrayList<Recipes>>() {
@@ -71,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
         });
 
     }
+
 
     private void saveToSharedPreference(List<Ingredients> ingredients, String name) {
         //setting up sharedpreferences with name & mode

@@ -238,6 +238,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
                 });
 
 
+
         return rootView;
 
 }
@@ -286,10 +287,19 @@ public void onResume(){
 }
 
 @Override
+public void onPause(){
+    super.onPause();
+    player.release();
+}
+
+@Override
 public void onStop(){
     super.onStop();
+    player.release();
 
 }
+
+
 
 
     @Override
