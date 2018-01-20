@@ -3,6 +3,7 @@ package com.example.sam.mebake;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,10 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_detail);
 
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &
+                (findViewById(R.id.detail_fragment_b) == null)) {
+            getSupportActionBar().hide();
+        }
 
 
         if (savedInstanceState == null) {
@@ -96,6 +101,7 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
     public boolean onOptionsItemSelected(final MenuItem item) {
 
         switch (item.getItemId()) {
+            //android default go back home button (can be access through getActionbar())
             case android.R.id.home:
                 onBackPressed();
                 Toast toast = Toast.makeText(context, "Just going back", Toast.LENGTH_SHORT);
@@ -109,6 +115,8 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
         }
     }
 
+
+    //modified the backpressed to pop the fragments
     @Override
     public void onBackPressed(){
         if(getFragmentManager().getBackStackEntryCount() > 0){

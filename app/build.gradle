@@ -23,32 +23,7 @@ dependencies {
     //testing only
     compile fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:support-annotations:27.0.2'
-    compile 'com.android.support.test.espresso:espresso-contrib:3.0.1'
 
-    // AndroidJUnitRunner and JUnit Rules
-    //noinspection GradleCompatible
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
-    androidTestCompile 'com.android.support.test:rules:1.0.1'
-
-    // Espresso dependencies
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:3.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-accessibility:3.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-web:3.0.1'
-    androidTestCompile 'com.android.support.test.espresso.idling:idling-concurrent:3.0.1'
-
-    // The following Espresso dependency can be either "compile"
-    // or "androidTestCompile", depending on your app's implementation
-    androidTestCompile 'com.android.support.test.espresso:espresso-idling-resource:3.0.1'
-
-
-
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:3.0.1'){
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude module: 'recyclerview-v7'
-    }
 
     compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -62,4 +37,13 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.+'
 
     compile 'com.android.support:support-v4:27.0.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    }
 }

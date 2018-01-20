@@ -12,7 +12,6 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,35 +23,28 @@ import static android.support.test.espresso.contrib.RecyclerViewActions.actionOn
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UITest {
+public class MainActivityTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void uITest() {
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.recipe_name), withText("Yellow Cake"),
-                        childAtPosition(
-                                childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(withText("Yellow Cake")));
-
+    public void mainActivityTest() {
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.main_recyclerview),
                         childAtPosition(
-                                withId(android.R.id.content),
-                                0)));
-        recyclerView.perform(actionOnItemAtPosition(1, click()));
+                                allOf(withId(android.R.id.content),
+                                        childAtPosition(
+                                                withId(R.id.decor_content_parent),
+                                                1)),
+                                0),
+                        isDisplayed()));
+        recyclerView.check(matches(isDisplayed()));
 
         ViewInteraction recyclerView2 = onView(
                 allOf(withId(R.id.main_recyclerview),
@@ -64,9 +56,19 @@ public class UITest {
         ViewInteraction recyclerView3 = onView(
                 allOf(withId(R.id.Recyclerview_steps),
                         childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.detail_fragment_a),
+                                        0),
+                                2),
+                        isDisplayed()));
+        recyclerView3.check(matches(isDisplayed()));
+
+        ViewInteraction recyclerView4 = onView(
+                allOf(withId(R.id.Recyclerview_steps),
+                        childAtPosition(
                                 withClassName(is("android.widget.LinearLayout")),
                                 2)));
-        recyclerView3.perform(actionOnItemAtPosition(2, click()));
+        recyclerView4.perform(actionOnItemAtPosition(1, click()));
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -78,12 +80,13 @@ public class UITest {
         }
 
         ViewInteraction frameLayout = onView(
-                allOf(childAtPosition(
-                        allOf(withId(R.id.video),
-                                childAtPosition(
-                                        withId(R.id.fragmentA_view),
-                                        1)),
-                        0),
+                allOf(withId(R.id.video),
+                        childAtPosition(
+                                allOf(withId(R.id.fragmentA_view),
+                                        childAtPosition(
+                                                withId(R.id.detail_fragment_a),
+                                                0)),
+                                2),
                         isDisplayed()));
         frameLayout.check(matches(isDisplayed()));
 

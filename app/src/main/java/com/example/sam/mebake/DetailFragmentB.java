@@ -3,6 +3,7 @@ package com.example.sam.mebake;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -109,6 +110,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
         stepDetail = rootView.findViewById(R.id.step_detail);
         stepButtonClickListener = (RecipeDetail) getActivity();
         //use rootview to find the all the view ids.
+
 
         if(savedInstanceState !=null){
             mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
