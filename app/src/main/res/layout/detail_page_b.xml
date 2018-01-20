@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:layout_weight="10">
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -13,24 +14,25 @@
         android:textStyle="bold" />
 
     <FrameLayout
-        android:id="@+id/mediaplayer_frame"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:id="@+id/mediaplayer_frame">
 
-    </FrameLayout>
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/video"
         />
+    </FrameLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:text="shyt"
         android:id="@+id/step_detail" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -51,6 +53,7 @@
             android:layout_gravity="center_vertical"
             android:text="NEXT STEP" />
     </LinearLayout>
+
     </LinearLayout>
 
 

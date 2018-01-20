@@ -220,7 +220,7 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
         }
         }
 
-
+//todo position is lost onResume;
 
 
 
