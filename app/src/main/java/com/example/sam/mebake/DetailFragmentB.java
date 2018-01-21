@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -72,9 +73,12 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
     private TextView stepTitle;
     private TextView stepDetail;
     private int currentPosition;
+    String STEP_LIST = "Step List";
+    String CURRENT_POSITION = "Current Position";
     private ArrayList<Steps> stepsList = new ArrayList<>();
     Context context;
     private StepButtonClickListener stepButtonClickListener;
+
 
 
 
@@ -156,7 +160,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         videoSource = new ExtractorMediaSource(mp4VideoUri,
                 dataSourceFactory, extractorsFactory, null, null);
-        player.prepare(videoSource);
+        player.prepare(videoSource, false, true);
         player.addListener(new Player.EventListener() {
 
             @Override
@@ -203,6 +207,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
             }
         });
 
+        player.getContentPosition();
         player.setPlayWhenReady(true);
         player.setVideoDebugListener(this);
 
@@ -247,9 +252,20 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
 @Override
 public void onSaveInstanceState(Bundle outState){
-        outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
+        /*outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
         outState.putLong(STATE_RESUME_POSITION, mResumePosition);
-        outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
+        outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);*/
+        //outState.putInt(CURRENT_POSITION, currentPosition);
+        //outState.putParcelableArrayList(STEP_LIST,stepsList);
+}
+
+public void onActivityCreated(Bundle outState){
+    super.onActivityCreated(outState);
+    if (outState !=null){
+    //currentPosition = outState.getInt(CURRENT_POSITION);
+    //stepsList = outState.getParcelableArrayList(STEP_LIST);
+    }
+
 }
 
 private void initFullscreenDialog(){
@@ -275,7 +291,7 @@ private void openFullscreenDialog(){
 
 private void closeFullscreenDialog(){
     ((ViewGroup) simpleExoPlayerView.getParent()).removeView(simpleExoPlayerView);
-    ((FrameLayout) simpleExoPlayerView.findViewById(R.id.mediaplayer_frame)).addView(simpleExoPlayerView);
+    ((FrameLayout) simpleExoPlayerView.findViewById(R.id.detail_fragment_a)).addView(simpleExoPlayerView);
     //mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_fullscreen_gobig));
     mExoPlayerFullscreen = false;
     mFullScreenDialog.dismiss();
@@ -286,6 +302,7 @@ private void closeFullscreenDialog(){
 public void onResume(){
     super.onResume();
     initFullscreenDialog();
+
 }
 
 @Override
