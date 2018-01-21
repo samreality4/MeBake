@@ -108,7 +108,9 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.detail_page_b, container, false);
+        View rootView =
+
+                inflater.inflate(R.layout.detail_page_b, container, false);
         context = getActivity();
         stepTitle = rootView.findViewById(R.id.step_title);
         stepDetail = rootView.findViewById(R.id.step_detail);
@@ -207,7 +209,8 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
             }
         });
 
-        player.getContentPosition();
+        mResumePosition = player.getCurrentPosition();
+        player.seekTo(mResumePosition);
         player.setPlayWhenReady(true);
         player.setVideoDebugListener(this);
 
@@ -252,18 +255,18 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
 @Override
 public void onSaveInstanceState(Bundle outState){
-        /*outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
+        outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
         outState.putLong(STATE_RESUME_POSITION, mResumePosition);
-        outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);*/
-        //outState.putInt(CURRENT_POSITION, currentPosition);
-        //outState.putParcelableArrayList(STEP_LIST,stepsList);
+        outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
+        /*outState.putInt(CURRENT_POSITION, currentPosition);
+        outState.putParcelableArrayList(STEP_LIST,stepsList);*/
 }
 
 public void onActivityCreated(Bundle outState){
     super.onActivityCreated(outState);
     if (outState !=null){
-    //currentPosition = outState.getInt(CURRENT_POSITION);
-    //stepsList = outState.getParcelableArrayList(STEP_LIST);
+    /*currentPosition = outState.getInt(CURRENT_POSITION);
+    stepsList = outState.getParcelableArrayList(STEP_LIST);*/
     }
 
 }
@@ -308,12 +311,14 @@ public void onResume(){
 @Override
 public void onPause(){
     super.onPause();
+    player.stop();
     player.release();
 }
 
 @Override
 public void onStop(){
     super.onStop();
+    player.stop();
     player.release();
 
 }

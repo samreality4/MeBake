@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +35,9 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
     StepAdapter stepAdapter;
     RecyclerView recyclerView;
     static String Back_Stack_Step = "Back_Stack_Step";
+    String STEP_LIST = "step list";
     Context context = this;
+
 
 
     @Override
@@ -45,6 +48,10 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &
                 (findViewById(R.id.detail_fragment_b) == null)) {
             getSupportActionBar().hide();
+        }
+
+        if(savedInstanceState != null){
+           stepsList = savedInstanceState.getParcelableArrayList(STEP_LIST);
         }
 
 
@@ -189,35 +196,43 @@ public class RecipeDetail extends AppCompatActivity implements StepAdapter.stepC
 
     @Override
     public void onStepButtonClickListener(List <Steps> steps, int position) {
-            if(findViewById(R.id.detail_fragment_a)!=null && findViewById(R.id.detail_fragment_b) == null ) {
+        if (findViewById(R.id.detail_fragment_a) != null && findViewById(R.id.detail_fragment_b) == null) {
 
-                DetailFragmentB detailFragmentB = new DetailFragmentB();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.detail_fragment_a, detailFragmentB)
-                        .addToBackStack(Back_Stack_Step)
-                        .commit();
-                // has to use same STRING name, so it can receive the new data.
-                Bundle bundle = new Bundle();
-                //pass in the entire list so, it can take data from the list.
-                bundle.putParcelableArrayList("steplist", stepsList);
-                bundle.putInt("position", position);
-                bundle.putParcelable("stepsdetail", stepsList.get(position));
-                detailFragmentB.setArguments(bundle);
-                //never leave ! = , alway use !=
-            }else if(findViewById(R.id.detail_fragment_b)!= null && findViewById(R.id.detail_fragment_a) != null ){
-                DetailFragmentB detailFragmentB = new DetailFragmentB();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.detail_fragment_b, detailFragmentB).addToBackStack(Back_Stack_Step)
-                        .commit();
+            DetailFragmentB detailFragmentB = new DetailFragmentB();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_a, detailFragmentB)
+                    .addToBackStack(Back_Stack_Step)
+                    .commit();
+            // has to use same STRING name, so it can receive the new data.
+            Bundle bundle = new Bundle();
+            //pass in the entire list so, it can take data from the list.
+            bundle.putParcelableArrayList("steplist", stepsList);
+            bundle.putInt("position", position);
+            bundle.putParcelable("stepsdetail", stepsList.get(position));
+            detailFragmentB.setArguments(bundle);
+            //never leave ! = , alway use !=
+        } else if (findViewById(R.id.detail_fragment_b) != null && findViewById(R.id.detail_fragment_a) != null) {
+            DetailFragmentB detailFragmentB = new DetailFragmentB();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_b, detailFragmentB).addToBackStack(Back_Stack_Step)
+                    .commit();
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("steplist", stepsList);
-                bundle.putInt("position", position);
-                bundle.putParcelable("stepsdetail", stepsList.get(position));
-                detailFragmentB.setArguments(bundle);
-            }
-
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("steplist", stepsList);
+            bundle.putInt("position", position);
+            bundle.putParcelable("stepsdetail", stepsList.get(position));
+            detailFragmentB.setArguments(bundle);
         }
+
+    }
+    //save the steplist in the outState
+@Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STEP_LIST,stepsList);
+}
+
+
         }
 
 //todo position is lost onResume;
