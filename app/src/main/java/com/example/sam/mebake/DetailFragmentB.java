@@ -119,9 +119,9 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
 
         if(savedInstanceState !=null){
-            mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
+            //mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
             mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
-            mExoPlayerFullscreen = savedInstanceState.getBoolean(STATE_PLAYER_FULLSCREEN);
+            //mExoPlayerFullscreen = savedInstanceState.getBoolean(STATE_PLAYER_FULLSCREEN);
         }
 
 
@@ -162,6 +162,8 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         videoSource = new ExtractorMediaSource(mp4VideoUri,
                 dataSourceFactory, extractorsFactory, null, null);
+
+        player.seekTo(mResumePosition);
         player.prepare(videoSource, false, true);
         player.addListener(new Player.EventListener() {
 
@@ -209,10 +211,10 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
             }
         });
 
-        mResumePosition = player.getCurrentPosition();
-        player.seekTo(mResumePosition);
+
         player.setPlayWhenReady(true);
         player.setVideoDebugListener(this);
+        mResumePosition = player.getCurrentPosition();
 
         Button mPrevStep = rootView.findViewById(R.id.previous_step);
         Button mNextStep = rootView.findViewById(R.id.next_step);
@@ -271,7 +273,7 @@ public void onActivityCreated(Bundle outState){
 
 }
 
-private void initFullscreenDialog(){
+/*private void initFullscreenDialog(){
     mFullScreenDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen){
         public void onBackPressed(){
             if(!mExoPlayerFullscreen)
@@ -299,18 +301,19 @@ private void closeFullscreenDialog(){
     mExoPlayerFullscreen = false;
     mFullScreenDialog.dismiss();
 
-}
+}*/
 
 @Override
 public void onResume(){
     super.onResume();
-    initFullscreenDialog();
+    //initFullscreenDialog();
 
 }
 
 @Override
 public void onPause(){
     super.onPause();
+    mResumePosition = player.getCurrentPosition();
     player.stop();
     player.release();
 }
