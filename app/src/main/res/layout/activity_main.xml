@@ -23,7 +23,6 @@
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/colorPrimary"
             android:padding="20dp"
-            android:text="Recipes"
             android:textColor="@color/White_HOLO"/>
 
     </android.support.v7.widget.CardView>
