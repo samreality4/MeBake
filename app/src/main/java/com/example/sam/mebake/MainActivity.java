@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
 
                 countingIdlingResource.decrement();
 
-                getCountingIdlingResource();
-
             }
 
             public CountingIdlingResource getCountingIdlingResource(){
