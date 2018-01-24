@@ -37,10 +37,15 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.+'
 
     compile 'com.android.support:support-v4:27.0.2'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+    //compile here will show up in the regular activities
+    compile 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile 'com.android.support.test.espresso.idling:idling-concurrent:3.0.1'
+    compile 'com.android.support.test.espresso:espresso-contrib:3.0.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+    androidTestCompile 'com.android.support.test.espresso.idling:idling-concurrent:3.0.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'design'

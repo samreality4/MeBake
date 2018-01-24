@@ -2,6 +2,7 @@ package com.example.sam.mebake;
 
 
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -46,8 +47,8 @@ public class MainActivityTest {
 
     @Before
     public void addIdlingResource() {
-        idlingResource = mActivityTestRule.getActivity().getIdlingResource();
-        Espresso.registerIdlingResources(idlingResource);
+        idlingResource = mActivityTestRule.getActivity().countingIdlingResource;
+        IdlingRegistry.getInstance().register(idlingResource);
 
     }
 
@@ -60,7 +61,7 @@ public class MainActivityTest {
     @Test
     public void checkExoplayer(){
         onView(ViewMatchers.withId(R.id.main_recyclerview)).
-                perform(RecyclerViewActions.scrollToPosition(1));
+                perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         onView(ViewMatchers.withId(R.id.Recyclerview_steps)).
                 perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
@@ -70,7 +71,7 @@ public class MainActivityTest {
     @After
     public void removeIdlingResource(){
         if(idlingResource != null){
-            Espresso.unregisterIdlingResources(idlingResource);
+            IdlingRegistry.getInstance().unregister(idlingResource);
         }
     }
 

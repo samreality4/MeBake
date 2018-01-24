@@ -106,7 +106,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
     }
 
 
-
+    //use rootview to find the all the view ids.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView =
 
@@ -115,13 +115,12 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
         stepTitle = rootView.findViewById(R.id.step_title);
         stepDetail = rootView.findViewById(R.id.step_detail);
         stepButtonClickListener = (RecipeDetail) getActivity();
-        //use rootview to find the all the view ids.
+
 
 
         if(savedInstanceState !=null){
-            //mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
+            //get the position from save state here
             mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
-            //mExoPlayerFullscreen = savedInstanceState.getBoolean(STATE_PLAYER_FULLSCREEN);
         }
 
 
@@ -163,6 +162,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
         videoSource = new ExtractorMediaSource(mp4VideoUri,
                 dataSourceFactory, extractorsFactory, null, null);
 
+        //restore player position
         player.seekTo(mResumePosition);
         player.prepare(videoSource, false, true);
         player.addListener(new Player.EventListener() {
@@ -214,7 +214,7 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 
         player.setPlayWhenReady(true);
         player.setVideoDebugListener(this);
-        mResumePosition = player.getCurrentPosition();
+        //mResumePosition = player.getCurrentPosition();
 
         Button mPrevStep = rootView.findViewById(R.id.previous_step);
         Button mNextStep = rootView.findViewById(R.id.next_step);
@@ -256,52 +256,15 @@ public class DetailFragmentB extends Fragment implements VideoRendererEventListe
 }
 
 @Override
+//save the position in here
 public void onSaveInstanceState(Bundle outState){
-        outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
         outState.putLong(STATE_RESUME_POSITION, mResumePosition);
-        outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
-        /*outState.putInt(CURRENT_POSITION, currentPosition);
-        outState.putParcelableArrayList(STEP_LIST,stepsList);*/
-}
-
-public void onActivityCreated(Bundle outState){
-    super.onActivityCreated(outState);
-    if (outState !=null){
-    /*currentPosition = outState.getInt(CURRENT_POSITION);
-    stepsList = outState.getParcelableArrayList(STEP_LIST);*/
-    }
 
 }
 
-/*private void initFullscreenDialog(){
-    mFullScreenDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen){
-        public void onBackPressed(){
-            if(!mExoPlayerFullscreen)
-                openFullscreenDialog();
-            else
-                closeFullscreenDialog();
-            super.onBackPressed();
-        }
-    };
-}
 
-private void openFullscreenDialog(){
-    ((ViewGroup) simpleExoPlayerView.getParent()).removeView(simpleExoPlayerView);
-    mFullScreenDialog.addContentView(simpleExoPlayerView, new ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-    //mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_fullscreen_gosmall));
-    mExoPlayerFullscreen=true;
-    mFullScreenDialog.show();
-}
 
-private void closeFullscreenDialog(){
-    ((ViewGroup) simpleExoPlayerView.getParent()).removeView(simpleExoPlayerView);
-    ((FrameLayout) simpleExoPlayerView.findViewById(R.id.detail_fragment_a)).addView(simpleExoPlayerView);
-    //mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_fullscreen_gobig));
-    mExoPlayerFullscreen = false;
-    mFullScreenDialog.dismiss();
 
-}*/
 
 @Override
 public void onResume(){

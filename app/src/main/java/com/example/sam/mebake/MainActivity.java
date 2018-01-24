@@ -1,30 +1,20 @@
 package com.example.sam.mebake;
 
 
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.ContextCompat;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 
 import com.example.sam.mebake.Model.Ingredients;
 import com.example.sam.mebake.Model.Recipes;
-import com.example.sam.mebake.Model.Steps;
 import com.example.sam.mebake.remote.ApiClient;
 import com.example.sam.mebake.remote.ApiService;
 import com.example.sam.mebake.widget.NewAppWidgetProvider;
@@ -48,25 +38,15 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
     private static final String RECIPES_SIZE_PREF = "recipesize";
     Context context = this;
 
-    @Nullable
-    private SimpleIdlingResource simpleIdlingResource;
-
-    @VisibleForTesting
-    @NonNull
-    public IdlingResource getIdlingResource(){
-        if(simpleIdlingResource == null){
-            simpleIdlingResource = new SimpleIdlingResource();
-        }
-        return simpleIdlingResource;
-    }
+    CountingIdlingResource countingIdlingResource = new CountingIdlingResource("Loading Time");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_recyclerview);
 
-
-
+        //getIdlingResource();
+        countingIdlingResource.increment();
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Call<ArrayList<Recipes>> call = apiService.getEverything();
         call.enqueue(new Callback<ArrayList<Recipes>>() {
@@ -81,7 +61,20 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                 recyclerView.setAdapter(recipeAdapter);
 
+                /*if(elapsedTimeIdlingResource != null){
+                    elapsedTimeIdlingResource.setIdleState(true);
+                }*/
+
+                countingIdlingResource.decrement();
+
+                getCountingIdlingResource();
+
             }
+
+            public CountingIdlingResource getCountingIdlingResource(){
+                return countingIdlingResource;
+            }
+
 
 
             @Override
@@ -92,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.rec
             }
         });
 
-        getIdlingResource();
+       //getIdlingResource();
 
     }
 
