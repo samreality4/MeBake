@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.example.sam.mebake.Model.Recipes;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -64,6 +66,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         myholder.recipeMain.setText(current.getName());
 
 
+        if (current.getImage().isEmpty()) {
+
+        } else {
+            Picasso.with(mContext)
+                    .load(current.getImage())
+                    .resize(185, 278)
+                    .error(R.drawable.ic_action_name)
+                    .into(myholder.recipeImage);
+
+        }
     }
 
     @Override
@@ -74,6 +86,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 class Myholder extends RecyclerView.ViewHolder{
     @BindView(R.id.recipe_name) TextView recipeMain;
+    @BindView(R.id.recipe_image)
+    ImageView recipeImage;
 
     public Myholder(View itemView){
         super(itemView);
