@@ -21,6 +21,8 @@ With the app, you can:
 
 * [Retrofit](https://github.com/square/retrofit)
 * [Picasso](http://square.github.io/picasso/)
+* [Butterknife](http://jakewharton.github.io/butterknife/)
+* [Exoplayer](https://github.com/google/ExoPlayer)
 
 
 
