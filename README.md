@@ -11,9 +11,9 @@ With the app, you can:
 
 ## Screenshots
 
-![screen](.../MeBake/app/src/main/res/drawable/screenone.png)
+![screen](MeBake/app/src/main/res/drawable/screenone.png)
 
-![screen](.../MeBake/app/src/main/res/drawable/screenone.png)
+![screen](MeBake/app/src/main/res/drawable/screenone.png)
 
 
 ## Libraries
