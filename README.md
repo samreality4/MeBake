@@ -6,7 +6,7 @@ This app showcases step by step tutorials on how to make certain baked goods as 
 With the app, you can:
 * View the app in mobile and tablet
 * Watch video tutorial on how to make baked goods
-* Nagivate to different step of the tutorial with nagivational buttons
+* Move to different step of the tutorial with nagivational buttons
 
 
 ## Screenshots
