@@ -1,4 +1,5 @@
 # MeBake
+
 This app showcases step by step tutorials on how to make certain baked goods as part of the projects for Udacity's Android Developer Nanodegree.
 
 ## Features
